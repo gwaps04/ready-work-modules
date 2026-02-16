@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace Mastery: Professional SOPs & Data Viz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* Stone 100 */
+            color: #292524; /* Stone 800 */
+        }
+
+        .serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E7E5E4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #A8A29E; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716C; 
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Interactive Doc Styling */
+        .mock-doc {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        .doc-interactive:hover {
+            outline: 2px solid #3B82F6;
+            cursor: pointer;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        /* Tab Animation */
+        .tab-content {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone/Gray) with Professional Blue Accents -->
+    <!-- Application Structure Plan: Dashboard layout. Sidebar (desktop) / Top bar (mobile) for navigation between 4 main modules. Main content area dynamically updates. 
+         Module 1: Interactive 'Mock Doc' to demonstrate SOP structure.
+         Module 2: Process flow visualization for Forms logic using HTML/CSS steps.
+         Module 3: Interactive Chart.js comparison (Bad vs Good) to teach Viz principles.
+         Module 4: Sprint Challenge cards.
+         Rationale: Breaking the training into interactive 'labs' makes the abstract concepts concrete and testable. -->
+    <!-- Visualization & Content Choices: 
+         1. SOP Anatomy: HTML representation of a Doc with click handlers to reveal 'Why it works' tooltips. Goal: Visual recognition of good structure.
+         2. Forms Flow: Vertical stepper using flexbox/borders. Goal: Visualize the invisible logic of data cleaning.
+         3. Chart Comparison: Chart.js instances. Toggle button switches datasets/options. Goal: Direct comparison of 'Cluttered' vs 'Clean'.
+         4. Sprint Board: CSS Grid layout for task cards. Goal: Actionable takeaway. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="min-h-screen flex flex-col md:flex-row">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-stone-900 text-stone-50 p-4 flex justify-between items-center shadow-md z-20">
+        <h1 class="font-bold text-lg">Workspace Mastery</h1>
+        <button id="mobile-menu-btn" class="text-stone-300 focus:outline-none text-2xl">
+            &#9776; <!-- Hamburger Icon -->
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="hidden md:flex flex-col w-full md:w-64 bg-stone-900 text-stone-300 h-screen fixed z-10 transition-transform transform md:translate-x-0 -translate-x-full">
+        <div class="p-6 border-b border-stone-700">
+            <h1 class="text-2xl font-bold text-stone-50 tracking-tight">Workspace<br><span class="text-blue-400">Mastery</span></h1>
+            <p class="text-xs mt-2 text-stone-500">Training Module v1.0</p>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <button onclick="navigate('overview')" class="nav-btn w-full text-left px-6 py-3 hover:bg-stone-800 hover:text-white transition-colors border-l-4 border-transparent active-nav" data-target="overview">
+                        <span class="mr-3">🏠</span> Overview
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navigate('session1')" class="nav-btn w-full text-left px-6 py-3 hover:bg-stone-800 hover:text-white transition-colors border-l-4 border-transparent" data-target="session1">
+                        <span class="mr-3">📄</span> Session 1: Modern SOPs
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navigate('session2')" class="nav-btn w-full text-left px-6 py-3 hover:bg-stone-800 hover:text-white transition-colors border-l-4 border-transparent" data-target="session2">
+                        <span class="mr-3">📝</span> Session 2: Data Cleanliness
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navigate('session3')" class="nav-btn w-full text-left px-6 py-3 hover:bg-stone-800 hover:text-white transition-colors border-l-4 border-transparent" data-target="session3">
+                        <span class="mr-3">📊</span> Session 3: Data Viz
+                    </button>
+                </li>
+                <li>
+                    <button onclick="navigate('session4')" class="nav-btn w-full text-left px-6 py-3 hover:bg-stone-800 hover:text-white transition-colors border-l-4 border-transparent" data-target="session4">
+                        <span class="mr-3">🏃</span> Session 4: Sprint
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-6 border-t border-stone-700">
+            <div class="bg-stone-800 rounded p-3">
+                <p class="text-xs text-stone-400 uppercase tracking-widest font-semibold mb-1">Progress</p>
+                <div class="w-full bg-stone-700 h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-blue-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+                <p id="progress-text" class="text-xs text-right mt-1 text-stone-400">0% Complete</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 md:ml-64 p-6 md:p-12 overflow-y-auto min-h-screen">
+        
+        <!-- Overview Section -->
+        <section id="overview" class="tab-content block">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-8 mb-8">
+                    <h2 class="text-3xl font-bold text-stone-900 mb-4">Welcome to Workspace Mastery</h2>
+                    <p class="text-lg text-stone-600 leading-relaxed mb-6">
+                        This training module is designed to transform how we work. We are moving away from "walls of text" and cluttered spreadsheets toward <strong>standardized, interactive documentation</strong> and <strong>high-impact visual storytelling</strong>.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-800 mb-2">🎯 For Ops & Admin</h3>
+                            <p class="text-sm text-stone-600">Learn to build SOPs that people actually read using Smart Canvas features and structured layouts.</p>
+                        </div>
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-800 mb-2">📈 For Analysts & Leads</h3>
+                            <p class="text-sm text-stone-600">Turn raw Form data into "Management-Ready" slides that drive decisions immediately.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <button onclick="navigate('session1')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition-colors">
+                            Start Module 1 &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Learning Path Preview -->
+                <h3 class="text-xl font-bold text-stone-800 mb-4">Learning Path</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+                        <div class="text-2xl mb-2">📄</div>
+                        <div class="font-bold text-sm">Structure</div>
+                        <div class="text-xs text-stone-500">Docs & Headers</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                        <div class="text-2xl mb-2">📝</div>
+                        <div class="font-bold text-sm">Input</div>
+                        <div class="text-xs text-stone-500">Forms Logic</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-purple-500">
+                        <div class="text-2xl mb-2">📊</div>
+                        <div class="font-bold text-sm">Visualize</div>
+                        <div class="text-xs text-stone-500">Slide Impact</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-orange-500">
+                        <div class="text-2xl mb-2">🚀</div>
+                        <div class="font-bold text-sm">Sprint</div>
+                        <div class="text-xs text-stone-500">Apply Skills</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 1: Modern SOPs -->
+        <section id="session1" class="tab-content hidden">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-8">
+                    <span class="text-blue-600 font-bold uppercase tracking-wide text-xs">Session 1</span>
+                    <h2 class="text-3xl font-bold text-stone-900">The Anatomy of a Modern SOP</h2>
+                    <p class="text-stone-600 mt-2">Interact with the document below. Click the highlighted areas to understand the structural requirements.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- The Interactive Doc -->
+                    <div class="lg:col-span-2">
+                        <div class="mock-doc bg-white min-h-[600px] p-8 md:p-12 rounded shadow-lg border border-stone-200 relative">
+                            <!-- Header Area -->
+                            <div class="doc-interactive border-l-4 border-transparent hover:border-blue-400 pl-4 mb-6 -ml-4 rounded cursor-pointer" onclick="showTip('headers')">
+                                <h1 class="text-3xl font-bold text-stone-900 mb-2">Standard Operating Procedure: Monthly Reporting</h1>
+                                <div class="flex items-center space-x-2 text-sm text-stone-500">
+                                    <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs font-medium">Approved</span>
+                                    <span>• Last Updated: Oct 24</span>
+                                    <span>• Owner: @MarketingTeam</span>
+                                </div>
+                            </div>
+
+                            <!-- TL;DR Table -->
+                            <div class="doc-interactive border-l-4 border-transparent hover:border-blue-400 pl-4 mb-6 -ml-4 rounded cursor-pointer" onclick="showTip('tldr')">
+                                <div class="bg-stone-50 p-4 rounded border border-stone-200">
+                                    <h3 class="text-xs uppercase font-bold text-stone-500 mb-2">TL;DR Summary</h3>
+                                    <p class="text-sm text-stone-700 italic">This SOP covers the extraction of data from Salesforce and formatting into the Q3 Slide Deck. Requires access to the "Shared Drive".</p>
+                                </div>
+                            </div>
+
+                            <!-- Document History -->
+                            <div class="doc-interactive border-l-4 border-transparent hover:border-blue-400 pl-4 mb-6 -ml-4 rounded cursor-pointer" onclick="showTip('history')">
+                                <table class="w-full text-sm text-left text-stone-600 border-collapse">
+                                    <thead class="bg-stone-100 text-xs uppercase">
+                                        <tr>
+                                            <th class="p-2 border border-stone-200">Date</th>
+                                            <th class="p-2 border border-stone-200">Editor</th>
+                                            <th class="p-2 border border-stone-200">Change</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-2 border border-stone-200">2023-10-01</td>
+                                            <td class="p-2 border border-stone-200">J. Doe</td>
+                                            <td class="p-2 border border-stone-200">Initial Draft</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Content Body -->
+                            <div class="doc-interactive border-l-4 border-transparent hover:border-blue-400 pl-4 mb-6 -ml-4 rounded cursor-pointer" onclick="showTip('body')">
+                                <h2 class="text-xl font-bold text-stone-800 mb-3 mt-6">1. Data Extraction</h2>
+                                <p class="text-stone-700 mb-4">Navigate to the dashboard and select the date range.</p>
+                                
+                                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                    <div class="flex">
+                                        <div class="mr-3 text-yellow-500 text-xl">💡</div>
+                                        <div>
+                                            <p class="font-bold text-yellow-800 text-sm">Pro Tip</p>
+                                            <p class="text-sm text-yellow-700">Use the "Export to CSV" function to save time formatting.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <ul class="list-none space-y-2 text-stone-700">
+                                    <li>📝 <span class="font-medium">Action:</span> Download the file.</li>
+                                    <li>⚠️ <span class="font-medium">Critical:</span> Check for duplicates.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Panel for Explanations -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-stone-800 text-stone-100 p-6 rounded-xl shadow-lg sticky top-6">
+                            <h3 class="text-lg font-bold border-b border-stone-600 pb-2 mb-4">Feature Breakdown</h3>
+                            <div id="tip-content">
+                                <p class="text-stone-400 italic">Click any section of the document on the left to learn why it's structured that way.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 2: Data Cleanliness -->
+        <section id="session2" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <span class="text-green-600 font-bold uppercase tracking-wide text-xs">Session 2</span>
+                    <h2 class="text-3xl font-bold text-stone-900">Data Capture & Cleanliness</h2>
+                    <p class="text-stone-600 mt-2">Garbage in, garbage out. Learn how to engineer your Google Forms to produce clean, analysis-ready data automatically.</p>
+                </div>
+
+                <!-- Process Flow Visualization -->
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-red-400 relative overflow-hidden group hover:shadow-md transition-all">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-stone-800">1. The Input (Google Forms)</h3>
+                                <p class="text-sm text-stone-500 mt-1">Stop bad data before it starts.</p>
+                            </div>
+                            <div class="mt-4 md:mt-0 flex gap-2">
+                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-mono">Validation Rules</span>
+                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-mono">Logic Jumps</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-stone-50 rounded border border-stone-200">
+                            <p class="font-semibold text-sm mb-2">Try entering a value > 100:</p>
+                            <div class="flex gap-2">
+                                <input type="number" id="validation-input" placeholder="Enter number..." class="border p-2 rounded text-sm w-full md:w-1/3 focus:ring-2 focus:ring-red-300 outline-none">
+                                <button onclick="testValidation()" class="bg-stone-800 text-white px-4 py-2 rounded text-sm hover:bg-stone-700">Submit</button>
+                            </div>
+                            <p id="validation-msg" class="text-xs mt-2 h-4 font-bold"></p>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex justify-center">
+                        <div class="text-3xl text-stone-300">⬇</div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-yellow-400 group hover:shadow-md transition-all">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-stone-800">2. The Bridge (Sheets Middleware)</h3>
+                                <p class="text-sm text-stone-500 mt-1">Automated cleaning functions.</p>
+                            </div>
+                            <div class="mt-4 md:mt-0">
+                                <code class="bg-stone-100 text-stone-600 px-2 py-1 rounded text-sm">=TRIM(PROPER(A2))</code>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-stone-100 p-3 rounded">
+                                <p class="text-xs uppercase text-stone-400 font-bold">Raw Input</p>
+                                <p class="font-mono text-red-600">"  john doe  "</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded border border-green-200">
+                                <p class="text-xs uppercase text-green-600 font-bold">Cleaned Output</p>
+                                <p class="font-mono text-green-800">"John Doe"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex justify-center">
+                        <div class="text-3xl text-stone-300">⬇</div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-green-500 group hover:shadow-md transition-all">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-stone-800">3. The Output (Slides)</h3>
+                                <p class="text-sm text-stone-500 mt-1">Live-linked visualizations.</p>
+                            </div>
+                            <div class="mt-4 md:mt-0">
+                                <span class="text-green-600 font-bold text-sm">✓ Ready for Viz</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 3: Data Viz -->
+        <section id="session3" class="tab-content hidden">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-8">
+                    <div>
+                        <span class="text-purple-600 font-bold uppercase tracking-wide text-xs">Session 3</span>
+                        <h2 class="text-3xl font-bold text-stone-900">Professional Data Visualization</h2>
+                        <p class="text-stone-600 mt-2">Toggle between "Amateur" and "Pro" to see the impact of design choices.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 bg-stone-200 p-1 rounded-lg inline-flex">
+                        <button onclick="toggleChart('bad')" id="btn-bad" class="px-4 py-2 rounded-md text-sm font-bold transition-all bg-white shadow text-stone-800">The "Before"</button>
+                        <button onclick="toggleChart('good')" id="btn-good" class="px-4 py-2 rounded-md text-sm font-bold transition-all text-stone-600 hover:text-stone-800">The "After"</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Chart Area -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow border border-stone-200">
+                        <div id="chart-title-area" class="mb-4">
+                            <!-- Dynamic Title inserted via JS -->
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="mainChart"></canvas>
+                        </div>
+                        <div id="chart-caption" class="mt-4 text-center text-sm text-stone-500 italic">
+                            <!-- Dynamic Caption -->
+                        </div>
+                    </div>
+
+                    <!-- Analysis Panel -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white p-6 rounded-xl shadow border border-stone-200 h-full">
+                            <h3 class="font-bold text-lg text-stone-800 mb-4">Design Critique</h3>
+                            <ul id="critique-list" class="space-y-3 text-sm">
+                                <!-- Dynamic List -->
+                            </ul>
+                            
+                            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                <h4 class="font-bold text-blue-800 text-sm mb-1">Key Rule:</h4>
+                                <p id="key-rule" class="text-blue-700 text-xs leading-relaxed">
+                                    Start with the message, not the data. Remove anything that doesn't support that message.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Session 4: Sprint -->
+        <section id="session4" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto text-center mb-10">
+                <span class="text-orange-600 font-bold uppercase tracking-wide text-xs">Session 4</span>
+                <h2 class="text-3xl font-bold text-stone-900">The Practical Sprint</h2>
+                <p class="text-stone-600 mt-2">Put it all together. Complete these two challenges to finish the module.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Challenge 1 -->
+                <div class="bg-white rounded-xl shadow-lg border-t-8 border-orange-400 overflow-hidden transform hover:-translate-y-1 transition-transform">
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold text-stone-800">Challenge A: The SOP</h3>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-bold">30 Mins</span>
+                        </div>
+                        <p class="text-stone-600 mb-6">You are given a 4-page "wall of text" document about the new Office Opening procedures.</p>
+                        <h4 class="font-bold text-sm text-stone-800 uppercase mb-3">Your Task:</h4>
+                        <ul class="text-sm text-stone-600 space-y-2 mb-8">
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Add H1/H2 Headers for navigation.</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Create a TL;DR summary table.</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Replace generic bullet points with "Action" 📝 and "Warning" ⚠️ emojis.</li>
+                        </ul>
+                        <button class="w-full border border-stone-300 text-stone-600 font-bold py-3 rounded-lg hover:bg-stone-50 transition-colors">Download Source Text</button>
+                    </div>
+                </div>
+
+                <!-- Challenge 2 -->
+                <div class="bg-white rounded-xl shadow-lg border-t-8 border-purple-500 overflow-hidden transform hover:-translate-y-1 transition-transform">
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold text-stone-800">Challenge B: The Slide</h3>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold">30 Mins</span>
+                        </div>
+                        <p class="text-stone-600 mb-6">You have a raw spreadsheet of Q4 Sales Data showing a 20% increase.</p>
+                        <h4 class="font-bold text-sm text-stone-800 uppercase mb-3">Your Task:</h4>
+                        <ul class="text-sm text-stone-600 space-y-2 mb-8">
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Create a bar chart in Sheets.</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Remove gridlines and background.</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Use the "Action Color" only on Q4 bar.</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">✓</span> Write a dynamic Action Title.</li>
+                        </ul>
+                        <button class="w-full border border-stone-300 text-stone-600 font-bold py-3 rounded-lg hover:bg-stone-50 transition-colors">Download Data Set</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-stone-800 text-white rounded-xl p-8 max-w-4xl mx-auto text-center">
+                <h3 class="text-xl font-bold mb-2">Ready to Submit?</h3>
+                <p class="text-stone-400 text-sm mb-6">Upload your finished Google Doc and Slide link below for Peer Review.</p>
+                <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded shadow-lg transition-all">Submit Projects</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- State Management ---
+        const state = {
+            currentModule: 'overview',
+            progress: 0,
+            chartInstance: null,
+            currentChartType: 'bad'
+        };
+
+        // --- Navigation Logic ---
+        function navigate(targetId) {
+            // Update State
+            state.currentModule = targetId;
+
+            // Update UI Tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(targetId).classList.remove('hidden');
+
+            // Update Sidebar Active State
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active-nav', 'bg-stone-800', 'text-white', 'border-blue-500');
+                btn.classList.add('border-transparent');
+                if(btn.dataset.target === targetId) {
+                    btn.classList.add('active-nav', 'bg-stone-800', 'text-white', 'border-blue-500');
+                    btn.classList.remove('border-transparent');
+                }
+            });
+
+            // Update Progress Bar (Simple logic based on clicks)
+            if(state.progress < 100) {
+                state.progress += 20;
+                if (state.progress > 100) state.progress = 100;
+                document.getElementById('progress-bar').style.width = state.progress + '%';
+                document.getElementById('progress-text').innerText = state.progress + '% Complete';
+            }
+
+            // Init Chart if entering Session 3
+            if(targetId === 'session3' && !state.chartInstance) {
+                setTimeout(() => initChart('bad'), 100); // Slight delay for DOM render
+            }
+
+            // Close Mobile Menu if open
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        }
+
+        // --- Mobile Menu Toggle ---
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // --- Session 1: Interactive Tooltips ---
+        const tips = {
+            'headers': {
+                title: 'Semantic Headers (H1, H2)',
+                text: 'Using proper header tags allows Google Docs to automatically generate a clickable Table of Contents on the left sidebar. It also makes the document accessible for screen readers.'
+            },
+            'tldr': {
+                title: 'The TL;DR Summary',
+                text: 'Respect your reader\'s time. A 3-sentence summary at the very top ensures everyone knows the context immediately without scrolling.'
+            },
+            'history': {
+                title: 'Version Control Table',
+                text: 'Always track who changed what and when. This prevents "mystery edits" and confusion about which process is currently active.'
+            },
+            'body': {
+                title: 'Scannable Content',
+                text: 'Walls of text are ignored. Use "Pro Tip" callout boxes (colored table cells) and specific Emojis to draw the eye to critical actions.'
+            }
+        };
+
+        function showTip(key) {
+            const container = document.getElementById('tip-content');
+            const data = tips[key];
+            container.innerHTML = `
+                <div class="animate-pulse-once">
+                    <h4 class="text-blue-400 font-bold text-lg mb-2">${data.title}</h4>
+                    <p class="text-stone-300 text-sm leading-relaxed">${data.text}</p>
+                </div>
+            `;
+        }
+
+        // --- Session 2: Form Validation Logic ---
+        function testValidation() {
+            const input = document.getElementById('validation-input').value;
+            const msg = document.getElementById('validation-msg');
+            
+            if (input === "") {
+                msg.innerText = "Please enter a number.";
+                msg.className = "text-xs mt-2 h-4 font-bold text-stone-500";
+            } else if (Number(input) > 100) {
+                msg.innerText = "❌ Error: Value must be between 1-100.";
+                msg.className = "text-xs mt-2 h-4 font-bold text-red-600";
+            } else {
+                msg.innerText = "✅ Success: Data is clean.";
+                msg.className = "text-xs mt-2 h-4 font-bold text-green-600";
+            }
+        }
+
+        // --- Session 3: Chart.js Logic ---
+        const chartData = {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            datasets: [{
+                label: 'Sales ($)',
+                data: [12000, 19000, 15000, 25000],
+            }]
+        };
+
+        function initChart(type) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            
+            // Destroy existing if needed
+            if(state.chartInstance) {
+                state.chartInstance.destroy();
+            }
+
+            let config = {};
+
+            if (type === 'bad') {
+                // The "Bad" Chart Config
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Quarterly Sales Data 2023',
+                            data: chartData.datasets[0].data,
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'], // Rainbow chaos
+                            borderColor: '#000000',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top' },
+                            title: { display: false }
+                        },
+                        scales: {
+                            y: { grid: { display: true, color: '#999' } }, // Heavy grids
+                            x: { grid: { display: true, color: '#999' } }
+                        }
+                    }
+                };
+                
+                // Update UI Text for Bad
+                document.getElementById('chart-title-area').innerHTML = `<h3 class="text-center font-bold text-stone-500">Quarterly Sales Performance Chart</h3>`;
+                document.getElementById('chart-caption').innerText = "Notice the eye-tracking effort required to match colors to the legend.";
+                document.getElementById('key-rule').innerText = "This chart forces the user to do the work. The rainbow colors have no meaning, gridlines create noise, and the title is generic.";
+                document.getElementById('critique-list').innerHTML = `
+                    <li class="text-red-600">❌ Rainbow colors distract</li>
+                    <li class="text-red-600">❌ Heavy gridlines add noise</li>
+                    <li class="text-red-600">❌ Generic title offers no insight</li>
+                    <li class="text-red-600">❌ Legend forces eye-movement</li>
+                `;
+                
+                // Toggle Buttons
+                document.getElementById('btn-bad').classList.replace('text-stone-600', 'bg-white');
+                document.getElementById('btn-bad').classList.replace('hover:text-stone-800', 'shadow');
+                document.getElementById('btn-bad').classList.add('text-stone-800');
+                
+                document.getElementById('btn-good').classList.remove('bg-white', 'shadow', 'text-stone-800');
+                document.getElementById('btn-good').classList.add('text-stone-600', 'hover:text-stone-800');
+
+            } else {
+                // The "Good" Chart Config
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Sales',
+                            data: chartData.datasets[0].data,
+                            backgroundColor: ['#E5E7EB', '#E5E7EB', '#E5E7EB', '#3B82F6'], // Gray out non-essential, Blue for action
+                            borderRadius: 4,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }, // Remove legend
+                            tooltip: { 
+                                enabled: true,
+                                backgroundColor: '#1C1917',
+                                padding: 10
+                            }
+                        },
+                        scales: {
+                            y: { 
+                                grid: { display: false }, 
+                                display: false // Remove Y axis labels for cleaner look (direct labeling preferred usually, but simple here)
+                            },
+                            x: { 
+                                grid: { display: false } 
+                            }
+                        },
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeOutQuart'
+                        }
+                    }
+                };
+
+                // Update UI Text for Good
+                document.getElementById('chart-title-area').innerHTML = `<h3 class="text-left font-bold text-stone-900 text-xl border-b pb-2">Q4 Sales Surged to <span class="text-blue-600">$25k</span></h3>`;
+                document.getElementById('chart-caption').innerText = "The eye goes straight to the blue bar and the headline message.";
+                document.getElementById('key-rule').innerText = "The 'Action Color' (Blue) highlights the key data point. The title tells the story immediately.";
+                document.getElementById('critique-list').innerHTML = `
+                    <li class="text-green-600">✅ Action Title tells the story</li>
+                    <li class="text-green-600">✅ Color focuses attention on Q4</li>
+                    <li class="text-green-600">✅ Clean "White Space"</li>
+                    <li class="text-green-600">✅ No legend required</li>
+                `;
+
+                 // Toggle Buttons
+                document.getElementById('btn-good').classList.replace('text-stone-600', 'bg-white');
+                document.getElementById('btn-good').classList.replace('hover:text-stone-800', 'shadow');
+                document.getElementById('btn-good').classList.add('text-stone-800');
+                
+                document.getElementById('btn-bad').classList.remove('bg-white', 'shadow', 'text-stone-800');
+                document.getElementById('btn-bad').classList.add('text-stone-600', 'hover:text-stone-800');
+            }
+
+            state.chartInstance = new Chart(ctx, config);
+        }
+
+        function toggleChart(type) {
+            initChart(type);
+        }
+
+        // Initialize animation class for reuse
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .animate-pulse-once {
+                animation: pulse-blue 0.5s ease-in-out;
+            }
+            @keyframes pulse-blue {
+                0% { background-color: rgba(59, 130, 246, 0.2); }
+                100% { background-color: transparent; }
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>

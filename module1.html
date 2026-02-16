@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud & Data Mastery: Professional Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #fdfbf7;
+            --accent-blue: #2c5282;
+            --accent-teal: #319795;
+            --text-main: #2d3748;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: #e2e8f0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .data-cell {
+            background: white;
+            padding: 10px;
+            font-size: 13px;
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.3s ease;
+        }
+
+        .data-header {
+            background: #f1f5f9;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .vlookup-highlight {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .folder-tree-item {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .folder-tree-item:hover {
+            background: #edf2f7;
+        }
+
+        .nested-folder {
+            display: none;
+            margin-left: 24px;
+            border-left: 2px solid #e2e8f0;
+            padding-left: 12px;
+        }
+
+        .active { display: block; }
+        
+        .tab-btn.active {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- NAVIGATION SIDEBAR -->
+    <nav class="w-full md:w-72 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0 z-20 overflow-y-auto">
+        <div class="p-8">
+            <h1 class="text-2xl font-black text-gray-800 tracking-tighter">PRO<span class="text-blue-600">CLOUD</span>.</h1>
+            <p class="text-[10px] uppercase font-bold text-gray-400 mt-1 tracking-widest">Graduate Transition Program</p>
+        </div>
+
+        <div class="px-4 pb-10 space-y-1">
+            <p class="px-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Phase 1: Cloud Core</p>
+            <button onclick="navTo('m1')" id="btn-m1" class="tab-btn active w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>💣</span> <span>The Wake-Up Call</span>
+            </button>
+            <button onclick="navTo('m2')" id="btn-m2" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🏛️</span> <span>Digital Architecture</span>
+            </button>
+            <button onclick="navTo('m3')" id="btn-m3" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🏷️</span> <span>Naming Conventions</span>
+            </button>
+            <button onclick="navTo('m4')" id="btn-m4" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🔒</span> <span>Permission Tiers</span>
+            </button>
+
+            <p class="px-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mt-6 mb-2">Phase 2: Data Mastery</p>
+            <button onclick="navTo('m5')" id="btn-m5" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🧹</span> <span>Data Sanitization</span>
+            </button>
+            <button onclick="navTo('m6')" id="btn-m6" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🔍</span> <span>Lookup Engines</span>
+            </button>
+            <button onclick="navTo('m7')" id="btn-m7" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>📊</span> <span>Pivot Storytelling</span>
+            </button>
+
+            <p class="px-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mt-6 mb-2">Phase 3: Final</p>
+            <button onclick="navTo('m8')" id="btn-m8" class="tab-btn w-full text-left px-4 py-3 rounded-xl flex items-center space-x-3 text-sm font-semibold transition-all">
+                <span>🏗️</span> <span>Grand Build Audit</span>
+            </button>
+        </div>
+
+        <div class="mt-auto p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex items-center justify-between text-[10px] font-bold text-gray-500 uppercase">
+                <span>Overall Progress</span>
+                <span id="prog-text">15%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                <div id="prog-bar" class="bg-blue-600 h-1.5 rounded-full transition-all duration-500" style="width: 15%"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 h-screen overflow-y-auto bg-gray-50 relative">
+        <div class="max-w-5xl mx-auto p-6 md:p-12 lg:p-16">
+
+            <!-- MODULE 1: WAKE UP CALL -->
+            <section id="m1" class="module animate-fade block">
+                <div class="mb-10">
+                    <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight">The "Digital Chaos" Wake-Up Call</h2>
+                    <p class="mt-4 text-xl text-gray-600 leading-relaxed max-w-3xl">
+                        In college, a missing file is a headache. In business, it's a financial liability. 
+                        We start by analyzing the <strong>Cost of Disorganization</strong>.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 class="text-lg font-bold text-red-600 mb-2">⚠️ The 10-Minute Leak</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Imagine a 5-person team. Each person spends just 10 minutes a day searching for files, re-saving duplicates, or asking "Where is the final logo?"
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-gray-50 grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-2xl font-black text-gray-800">$21,000+</p>
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold">Annual Revenue Lost</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-black text-gray-800">208 hrs</p>
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold">Wasted Salary/Year</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-blue-600 text-white rounded-2xl shadow-lg">
+                            <p class="text-lg font-medium italic">"Organization is not about being perfect; it's about being efficient."</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h4 class="text-center text-xs font-bold text-gray-400 uppercase mb-6">Wasted Resources: Chaotic vs. Organized</h4>
+                        <div class="chart-container">
+                            <canvas id="chaosChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 2: ARCHITECTURE -->
+            <section id="m2" class="module animate-fade hidden">
+                <div class="mb-10">
+                    <h2 class="text-4xl font-extrabold text-gray-900 tracking-tight text-center lg:text-left">Cloud Architecture</h2>
+                    <p class="mt-4 text-xl text-gray-600 text-center lg:text-left">Shared Drives are the company's library; My Drive is your desk.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="p-6 bg-white border border-gray-200 rounded-2xl hover:border-blue-400 transition cursor-help">
+                            <h4 class="font-bold text-blue-900">My Drive</h4>
+                            <p class="text-xs text-gray-500 mt-1 italic">The Personal Sandbox</p>
+                            <p class="text-sm text-gray-600 mt-4">Owned by you. If you leave, files often vanish with your account. Do not store team projects here.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-gray-200 rounded-2xl hover:border-teal-400 transition cursor-help">
+                            <h4 class="font-bold text-teal-900">Shared Drive</h4>
+                            <p class="text-xs text-gray-500 mt-1 italic">The Corporate HQ</p>
+                            <p class="text-sm text-gray-600 mt-4">Owned by the Company. Files persist even if members change. This is the source of truth.</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-6">Explore the Standard Folder Skeleton</h3>
+                        <div class="space-y-2 select-none">
+                            <div class="folder-tree-item" onclick="toggleFolder('f1')">
+                                <span class="mr-2 text-xl">🏢</span> <span class="font-bold">Company_Master_Drive</span>
+                            </div>
+                            <div id="f1" class="nested-folder active">
+                                <div class="folder-tree-item" onclick="toggleFolder('f2')">
+                                    <span class="mr-2">📂</span> <span>01_Operations</span>
+                                </div>
+                                <div id="f2" class="nested-folder">
+                                    <div class="folder-tree-item"><span class="mr-2">📄</span> 01_Polices_v01.pdf</div>
+                                </div>
+                                <div class="folder-tree-item" onclick="toggleFolder('f3')">
+                                    <span class="mr-2">📂</span> <span>02_Marketing</span>
+                                </div>
+                                <div id="f3" class="nested-folder">
+                                    <div class="folder-tree-item"><span class="mr-2">📁</span> 2024_Campaigns</div>
+                                    <div class="folder-tree-item"><span class="mr-2">📁</span> Brand_Assets</div>
+                                </div>
+                                <div class="folder-tree-item"><span class="mr-2">📂</span> <span>03_Finance</span> <span class="ml-2 text-[10px] bg-red-100 text-red-600 px-2 rounded">RESTRICTED</span></div>
+                            </div>
+                        </div>
+                        <p class="mt-8 text-xs text-gray-400 italic font-medium">Tip: Numbering folders (01, 02, 03) forces a logical sort order regardless of alphabet.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 3: NAMING -->
+            <section id="m3" class="module animate-fade hidden">
+                <div class="mb-10">
+                    <h2 class="text-4xl font-extrabold text-gray-900">Naming Ninja</h2>
+                    <p class="text-gray-600 mt-2">Consistency over cleverness. A file name is metadata.</p>
+                </div>
+
+                <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-100 mb-10">
+                    <h3 class="text-xl font-bold mb-8 flex items-center"><span class="p-3 bg-blue-50 rounded-xl mr-4">🤖</span> Filename Generator</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Date (ISO 8601)</label>
+                            <input type="date" id="n-date" class="w-full border-gray-200 border rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" onchange="genName()">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Project Code</label>
+                            <input type="text" id="n-proj" placeholder="e.g. NIKE24" class="w-full border-gray-200 border rounded-xl p-3 text-sm outline-none" onkeyup="genName()">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Category</label>
+                            <select id="n-cat" class="w-full border-gray-200 border rounded-xl p-3 text-sm outline-none" onchange="genName()">
+                                <option value="Report">Report</option>
+                                <option value="Brief">Brief</option>
+                                <option value="Invoice">Invoice</option>
+                                <option value="Budget">Budget</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Version</label>
+                            <select id="n-ver" class="w-full border-gray-200 border rounded-xl p-3 text-sm outline-none" onchange="genName()">
+                                <option value="v01">v01 (WIP)</option>
+                                <option value="v02">v02</option>
+                                <option value="FINAL">FINAL (Approved)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 p-8 rounded-2xl relative">
+                        <div class="absolute top-4 left-4 flex space-x-1">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        </div>
+                        <p id="n-output" class="text-center text-green-400 font-mono text-xl md:text-2xl mt-4 break-all">YYYY-MM-DD_Project_Category_vXX.ext</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 4: PERMISSIONS -->
+            <section id="m4" class="module animate-fade hidden">
+                <h2 class="text-4xl font-extrabold mb-10">Permission Tiers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-md transition group">
+                        <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">👀</div>
+                        <h4 class="font-bold text-xl mb-2">Viewer</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Read-only access. Cannot download or copy if restricted. Best for <strong>Clients</strong>.</p>
+                    </div>
+                    <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-md transition group border-blue-100 ring-4 ring-blue-50">
+                        <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">💬</div>
+                        <h4 class="font-bold text-xl mb-2">Commenter</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Can view and add suggestions or comments. Best for <strong>Stakeholders</strong>.</p>
+                    </div>
+                    <div class="p-8 bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-md transition group">
+                        <div class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">✏️</div>
+                        <h4 class="font-bold text-xl mb-2">Editor</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Full control. Can delete and invite others. Best for <strong>Direct Teammates</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 5: DATA CLEANING -->
+            <section id="m5" class="module animate-fade hidden">
+                <header class="mb-10">
+                    <h2 class="text-4xl font-extrabold text-gray-900">Data Sanitization</h2>
+                    <p class="text-gray-600 mt-3 text-lg">"Garbage in, garbage out." Learn to clean raw data before analyzing it.</p>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+                        <h3 class="font-bold text-gray-800 mb-6">Interactive Scrubber</h3>
+                        <p class="text-xs text-gray-400 mb-4 uppercase font-bold tracking-widest">Raw Input Data</p>
+                        <div class="space-y-2 mb-8" id="cleaning-list">
+                            <div class="p-3 bg-red-50 text-red-700 text-xs font-mono rounded flex justify-between"><span>" Apple Inc "</span> <span class="opacity-50">(Extra Spaces)</span></div>
+                            <div class="p-3 bg-red-50 text-red-700 text-xs font-mono rounded flex justify-between"><span>"microsoft"</span> <span class="opacity-50">(Lowercase)</span></div>
+                            <div class="p-3 bg-red-50 text-red-700 text-xs font-mono rounded flex justify-between"><span>"NIKE...NIKE"</span> <span class="opacity-50">(Duplicate)</span></div>
+                        </div>
+                        <button onclick="cleanData()" class="w-full bg-teal-600 text-white font-bold py-4 rounded-2xl hover:bg-teal-700 shadow-lg shadow-teal-100 transition-all">Apply TRIM, PROPER, UNIQUE</button>
+                    </div>
+
+                    <div class="flex flex-col justify-center">
+                        <div class="p-6 bg-indigo-900 text-white rounded-3xl">
+                            <h4 class="font-bold text-indigo-200 mb-4 tracking-wider uppercase text-[10px]">The Developer's Toolkit</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <code class="text-teal-400 font-bold">=TRIM()</code>
+                                    <p class="text-xs text-indigo-100 mt-1">Removes all leading, trailing, and double spaces.</p>
+                                </div>
+                                <div>
+                                    <code class="text-teal-400 font-bold">=PROPER()</code>
+                                    <p class="text-xs text-indigo-100 mt-1">Capitalizes the first letter of every word.</p>
+                                </div>
+                                <div>
+                                    <code class="text-teal-400 font-bold">=UNIQUE()</code>
+                                    <p class="text-xs text-indigo-100 mt-1">Strips out duplicates from a range instantly.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 6: LOOKUP ENGINES -->
+            <section id="m6" class="module animate-fade hidden">
+                <h2 class="text-4xl font-extrabold mb-10">The Lookup Engine (VLOOKUP/XLOOKUP)</h2>
+                
+                <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm mb-8">
+                    <div class="flex flex-col md:flex-row gap-10">
+                        <!-- Simulation UI -->
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 mb-4">Live VLOOKUP Journey</h3>
+                            <div class="mb-4">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Input SKU in Invoice:</label>
+                                <select id="v-select" class="w-full p-4 bg-gray-50 border-0 rounded-2xl font-bold text-blue-600 outline-none" onchange="simulateLookup()">
+                                    <option value="none">Select SKU...</option>
+                                    <option value="S-101">S-101</option>
+                                    <option value="S-202">S-202</option>
+                                    <option value="S-303">S-303</option>
+                                </select>
+                            </div>
+                            <div class="p-6 bg-blue-50 rounded-2xl text-center border-2 border-dashed border-blue-200">
+                                <p class="text-[10px] text-blue-400 font-bold uppercase">Result Found</p>
+                                <p id="v-result" class="text-2xl font-black text-blue-900 mt-1">---</p>
+                            </div>
+                        </div>
+
+                        <!-- Master Table -->
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-400 text-xs mb-4 uppercase">Master Product Catalog</h3>
+                            <div class="data-grid rounded-xl overflow-hidden shadow-sm">
+                                <div class="data-cell data-header">SKU</div><div class="data-cell data-header">Product</div><div class="data-cell data-header">Price</div>
+                                <div class="data-cell" id="sku-S-101">S-101</div><div class="data-cell">Macbook Pro</div><div class="data-cell">$2499</div>
+                                <div class="data-cell" id="sku-S-202">S-202</div><div class="data-cell">Magic Mouse</div><div class="data-cell">$79</div>
+                                <div class="data-cell" id="sku-S-303">S-303</div><div class="data-cell">4K Monitor</div><div class="data-cell">$450</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-white border border-gray-100 rounded-2xl">
+                        <h4 class="font-bold text-blue-800 mb-2">VLOOKUP (The Classic)</h4>
+                        <p class="text-xs text-gray-500">Fast, compatible with all sheets. Requires the 'Unique Key' to be in the leftmost column.</p>
+                        <code class="block bg-gray-50 p-3 rounded mt-3 text-[10px] text-gray-600">=VLOOKUP(Key, Range, ColIndex, FALSE)</code>
+                    </div>
+                    <div class="p-6 bg-white border border-gray-100 rounded-2xl border-blue-100 bg-blue-50/30">
+                        <h4 class="font-bold text-indigo-800 mb-2">XLOOKUP (The Modern King)</h4>
+                        <p class="text-xs text-gray-500">No column index needed. Can look left, right, up, or down. Handles errors automatically.</p>
+                        <code class="block bg-blue-100/50 p-3 rounded mt-3 text-[10px] text-indigo-600">=XLOOKUP(Key, SearchCol, ResultCol)</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 7: PIVOT TABLES -->
+            <section id="m7" class="module animate-fade hidden">
+                <header class="mb-10">
+                    <h2 class="text-4xl font-extrabold">Pivot Storytelling</h2>
+                    <p class="text-gray-600 mt-2">Data is just noise until you categorize it. Pivot tables are the "Storytellers" of the spreadsheet world.</p>
+                </header>
+
+                <div class="bg-white p-10 rounded-3xl border border-gray-100 shadow-sm mb-10">
+                    <div class="flex flex-col lg:flex-row justify-between items-center mb-10 gap-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Sales Insight Dashboard</h3>
+                            <p class="text-xs text-gray-400 mt-1">Switch views to see how the pivot changes the narrative.</p>
+                        </div>
+                        <div class="flex bg-gray-100 p-1 rounded-xl">
+                            <button onclick="updatePivot('region')" id="p-btn-reg" class="px-6 py-2 rounded-lg text-xs font-bold transition-all bg-white shadow-sm text-blue-600">Region View</button>
+                            <button onclick="updatePivot('prod')" id="p-btn-prod" class="px-6 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600">Product View</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="pivotChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 8: FINAL AUDIT -->
+            <section id="m8" class="module animate-fade hidden">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black text-gray-900">The Grand Build</h2>
+                    <p class="text-xl text-gray-500 mt-4 max-w-2xl mx-auto">It's 11:59 PM. The CEO needs the Q4 report. Can your system handle the pressure?</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-3xl border border-gray-900 border-b-8">
+                        <h3 class="text-2xl font-bold mb-6">Final Mission Checklist</h3>
+                        <div class="space-y-4">
+                            <label class="flex items-center space-x-4 p-4 hover:bg-gray-50 rounded-2xl transition cursor-pointer">
+                                <input type="checkbox" class="w-6 h-6 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <div>
+                                    <p class="font-bold text-sm">Design Folder Hierarchy</p>
+                                    <p class="text-[10px] text-gray-400 uppercase">Numbered Dept Folders in Shared Drive</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center space-x-4 p-4 hover:bg-gray-50 rounded-2xl transition cursor-pointer">
+                                <input type="checkbox" class="w-6 h-6 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <div>
+                                    <p class="font-bold text-sm">Standardize 1,000 Sales Rows</p>
+                                    <p class="text-[10px] text-gray-400 uppercase">Apply TRIM & PROPER to Client Names</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center space-x-4 p-4 hover:bg-gray-50 rounded-2xl transition cursor-pointer">
+                                <input type="checkbox" class="w-6 h-6 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <div>
+                                    <p class="font-bold text-sm">Automate Pricing</p>
+                                    <p class="text-[10px] text-gray-400 uppercase">Connect Master List via XLOOKUP</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center space-x-4 p-4 hover:bg-gray-50 rounded-2xl transition cursor-pointer">
+                                <input type="checkbox" class="w-6 h-6 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <div>
+                                    <p class="font-bold text-sm">Visualize Results</p>
+                                    <p class="text-[10px] text-gray-400 uppercase">Generate Pivot Chart by Regional Margin</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bg-blue-600 p-10 rounded-3xl text-white flex flex-col justify-center items-center text-center">
+                        <div class="text-6xl mb-6">🎓</div>
+                        <h3 class="text-3xl font-black mb-4">Certification Pending</h3>
+                        <p class="opacity-80 leading-relaxed">Completing these tasks proves you are not just a graduate, but a professional ready for the modern digital workspace.</p>
+                        <button class="mt-10 px-10 py-4 bg-white text-blue-600 font-bold rounded-2xl hover:bg-gray-100 transition shadow-xl" onclick="alert('System validated. Congratulations, Cloud Architect!')">Begin Submission</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // --- GLOBAL STATE ---
+        let chaosChartInst, pivotChartInst;
+
+        // --- NAVIGATION ---
+        function navTo(id) {
+            document.querySelectorAll('.module').forEach(m => m.classList.replace('block', 'hidden'));
+            document.getElementById(id).classList.replace('hidden', 'block');
+
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + id).classList.add('active');
+
+            // Progress tracking
+            const ids = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+            const idx = ids.indexOf(id) + 1;
+            const pct = Math.round((idx / ids.length) * 100);
+            document.getElementById('prog-bar').style.width = pct + '%';
+            document.getElementById('prog-text').innerText = pct + '%';
+
+            // Chart refreshes
+            if(id === 'm1' && chaosChartInst) chaosChartInst.update();
+            if(id === 'm7' && pivotChartInst) pivotChartInst.update();
+        }
+
+        // --- FOLDER TREE ---
+        function toggleFolder(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('active');
+        }
+
+        // --- FILENAME GENERATOR ---
+        function genName() {
+            const date = document.getElementById('n-date').value || 'YYYY-MM-DD';
+            const proj = document.getElementById('n-proj').value.toUpperCase().replace(/\s/g, '') || 'PROJ';
+            const cat = document.getElementById('n-cat').value;
+            const ver = document.getElementById('n-ver').value;
+            document.getElementById('n-output').innerText = `${date}_${proj}_${cat}_${ver}.pdf`;
+        }
+
+        // --- DATA CLEANING SIM ---
+        function cleanData() {
+            const list = document.getElementById('cleaning-list');
+            list.innerHTML = `
+                <div class="p-3 bg-teal-50 text-teal-700 text-xs font-mono rounded flex justify-between animate-fade"><span>"Apple Inc"</span> <span class="text-[9px] bg-teal-200 px-2 rounded">TRIMMED</span></div>
+                <div class="p-3 bg-teal-50 text-teal-700 text-xs font-mono rounded flex justify-between animate-fade"><span>"Microsoft"</span> <span class="text-[9px] bg-teal-200 px-2 rounded">PROPER-CASE</span></div>
+                <div class="p-3 bg-teal-50 text-teal-700 text-xs font-mono rounded flex justify-between animate-fade"><span>"NIKE"</span> <span class="text-[9px] bg-teal-200 px-2 rounded">DEDUPLICATED</span></div>
+            `;
+        }
+
+        // --- LOOKUP SIM ---
+        function simulateLookup() {
+            const sku = document.getElementById('v-select').value;
+            const res = document.getElementById('v-result');
+            
+            document.querySelectorAll('.data-cell').forEach(c => c.classList.remove('vlookup-highlight'));
+
+            if(sku === 'none') {
+                res.innerText = '---';
+                return;
+            }
+
+            const pricing = { 'S-101': '$2499', 'S-202': '$79', 'S-303': '$450' };
+            
+            // Artificial delay to simulate "thinking"
+            res.innerText = 'Looking...';
+            setTimeout(() => {
+                res.innerText = pricing[sku];
+                document.getElementById('sku-' + sku).classList.add('vlookup-highlight');
+                document.getElementById('sku-' + sku).nextElementSibling.nextElementSibling.classList.add('vlookup-highlight');
+            }, 400);
+        }
+
+        // --- PIVOT LOGIC ---
+        function updatePivot(mode) {
+            const btnReg = document.getElementById('p-btn-reg');
+            const btnProd = document.getElementById('p-btn-prod');
+
+            if(mode === 'region') {
+                btnReg.className = "px-6 py-2 rounded-lg text-xs font-bold transition-all bg-white shadow-sm text-blue-600";
+                btnProd.className = "px-6 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600";
+                pivotChartInst.data.labels = ['North', 'South', 'East', 'West'];
+                pivotChartInst.data.datasets[0].data = [45000, 32000, 15000, 28000];
+                pivotChartInst.data.datasets[0].label = 'Revenue by Region ($)';
+            } else {
+                btnProd.className = "px-6 py-2 rounded-lg text-xs font-bold transition-all bg-white shadow-sm text-blue-600";
+                btnReg.className = "px-6 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600";
+                pivotChartInst.data.labels = ['Hardware', 'Software', 'Consulting'];
+                pivotChartInst.data.datasets[0].data = [80000, 35000, 12000];
+                pivotChartInst.data.datasets[0].label = 'Revenue by Category ($)';
+            }
+            pivotChartInst.update();
+        }
+
+        // --- CHARTS INIT ---
+        window.onload = function() {
+            // Set default date
+            document.getElementById('n-date').value = new Date().toISOString().split('T')[0];
+            genName();
+
+            // Chaos Chart
+            const ctx1 = document.getElementById('chaosChart').getContext('2d');
+            chaosChartInst = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Organized Team', 'Chaotic Team'],
+                    datasets: [{
+                        label: 'Annual Cost of Inefficiency ($)',
+                        data: [1200, 21450],
+                        backgroundColor: ['#3182ce', '#e53e3e'],
+                        borderRadius: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
+                }
+            });
+
+            // Pivot Chart
+            const ctx2 = document.getElementById('pivotChart').getContext('2d');
+            pivotChartInst = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['North', 'South', 'East', 'West'],
+                    datasets: [{
+                        label: 'Revenue by Region ($)',
+                        data: [45000, 32000, 15000, 28000],
+                        backgroundColor: '#667eea',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { x: { grid: { display: false } }, y: { grid: { display: false } } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
