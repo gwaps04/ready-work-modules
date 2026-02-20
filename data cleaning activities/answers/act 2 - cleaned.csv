@@ -1,0 +1,51 @@
+Client_Full_Name,Installation_Address,System_ID_Code,Contact_Person_Role,Street,Barangay,City,Project Type,Wattage,Category,Contact Name,Job Role,Mailing Label,Service Order
+Reynold B. Magdaong,"123 Rizal St., Old Albay, Legazpi City",SOL-450W-RES,Reynold:Owner,123 Rizal St.,Old Albay,Legazpi City,SOL,450W,RES,Reynold,Owner,Client: Reynold B. Magdaong - Address: 123 Rizal St.,RES_Reynold B. Magdaong
+Maria Clara Santos,"Phase 2 Lot 5, Taysan, Legazpi City",SOL-550W-COM,Maria:Manager,Phase 2 Lot 5,Taysan,Legazpi City,SOL,550W,COM,Maria,Manager,Client: Maria Clara Santos - Address: Phase 2 Lot 5,COM_Maria Clara Santos
+Jonathan Sy,"Brgy 18, Cabangan, Legazpi City",SOL-300W-RES,Jonathan:Head,Brgy 18,Cabangan,Legazpi City,SOL,300W,RES,Jonathan,Head,Client: Jonathan Sy - Address: Brgy 18,RES_Jonathan Sy
+Lilibeth V. Oraye,"Purok 4, Rawis, Legazpi City",SOL-450W-RES,Lilibeth:Owner,Purok 4,Rawis,Legazpi City,SOL,450W,RES,Lilibeth,Owner,Client: Lilibeth V. Oraye - Address: Purok 4,RES_Lilibeth V. Oraye
+Mark Anthony Dantes,"Bgy 15, Ilawod, Legazpi City",SOL-1KW-COM,Mark:Director,Bgy 15,Ilawod,Legazpi City,SOL,1KW,COM,Mark,Director,Client: Mark Anthony Dantes - Address: Bgy 15,COM_Mark Anthony Dantes
+Elena G. Rossi,"Villa Grande Subd, Sagpon, Legazpi City",SOL-450W-RES,Elena:Owner,Villa Grande Subd,Sagpon,Legazpi City,SOL,450W,RES,Elena,Owner,Client: Elena G. Rossi - Address: Villa Grande Subd,RES_Elena G. Rossi
+Roberto Guanzon,"Albay District, Legazpi City",SOL-5KW-IND,Roberto:Supervisor,Albay District,Legazpi City,,SOL,5KW,IND,Roberto,Supervisor,Client: Roberto Guanzon - Address: Albay District,IND_Roberto Guanzon
+Sarah Jane Bicol,"Purok 1, Bitano, Legazpi City",SOL-300W-RES,Sarah:Owner,Purok 1,Bitano,Legazpi City,SOL,300W,RES,Sarah,Owner,Client: Sarah Jane Bicol - Address: Purok 1,RES_Sarah Jane Bicol
+Fernando Poe III,"Rizal St, Legazpi City",SOL-10KW-IND,Fernando:CEO,Rizal St,Legazpi City,,SOL,10KW,IND,Fernando,CEO,Client: Fernando Poe III - Address: Rizal St,IND_Fernando Poe III
+Gina L. Lopez,"Maroroy, Daraga-Legazpi Border",SOL-450W-RES,Gina:Owner,Maroroy,Daraga-Legazpi Border,,SOL,450W,RES,Gina,Owner,Client: Gina L. Lopez - Address: Maroroy,RES_Gina L. Lopez
+Paolo A. Reyes,"Washington Drive, Legazpi City",SOL-550W-COM,Paolo:Manager,Washington Drive,Legazpi City,,SOL,550W,COM,Paolo,Manager,Client: Paolo A. Reyes - Address: Washington Drive,COM_Paolo A. Reyes
+Clara Belle,"Empire Subd, Legazpi City",SOL-300W-RES,Clara:Owner,Empire Subd,Legazpi City,,SOL,300W,RES,Clara,Owner,Client: Clara Belle - Address: Empire Subd,RES_Clara Belle
+Dante M. Gulapa,"Tahao Road, Legazpi City",SOL-1KW-COM,Dante:Lead,Tahao Road,Legazpi City,,SOL,1KW,COM,Dante,Lead,Client: Dante M. Gulapa - Address: Tahao Road,COM_Dante M. Gulapa
+Fiona Mae,"Cruzada, Legazpi City",SOL-450W-RES,Fiona:Owner,Cruzada,Legazpi City,,SOL,450W,RES,Fiona,Owner,Client: Fiona Mae - Address: Cruzada,RES_Fiona Mae
+Gregory House,"Bgy 24, Rizal St, Legazpi City",SOL-5KW-IND,Gregory:Admin,Bgy 24,Rizal St,Legazpi City,SOL,5KW,IND,Gregory,Admin,Client: Gregory House - Address: Bgy 24,IND_Gregory House
+Hannah Montana,"Purok 6, Arimbay, Legazpi City",SOL-300W-RES,Hannah:Owner,Purok 6,Arimbay,Legazpi City,SOL,300W,RES,Hannah,Owner,Client: Hannah Montana - Address: Purok 6,RES_Hannah Montana
+Ian Somerhalder,"Lakandula St, Legazpi City",SOL-10KW-IND,Ian:Manager,Lakandula St,Legazpi City,,SOL,10KW,IND,Ian,Manager,Client: Ian Somerhalder - Address: Lakandula St,IND_Ian Somerhalder
+Julia B. Barretto,"Binanuahan, Legazpi City",SOL-450W-RES,Julia:Owner,Binanuahan,Legazpi City,,SOL,450W,RES,Julia,Owner,Client: Julia B. Barretto - Address: Binanuahan,RES_Julia B. Barretto
+Kevin Kwok,"Purok 3, San Roque, Legazpi City",SOL-550W-COM,Kevin:Director,Purok 3,San Roque,Legazpi City,SOL,550W,COM,Kevin,Director,Client: Kevin Kwok - Address: Purok 3,COM_Kevin Kwok
+Liza Soberano,"Imperial Court, Legazpi City",SOL-300W-RES,Liza:Owner,Imperial Court,Legazpi City,,SOL,300W,RES,Liza,Owner,Client: Liza Soberano - Address: Imperial Court,RES_Liza Soberano
+Mike Enriquez,"Bgy 40, Buyuan, Legazpi City",SOL-1KW-COM,Mike:Anchor,Bgy 40,Buyuan,Legazpi City,SOL,1KW,COM,Mike,Anchor,Client: Mike Enriquez - Address: Bgy 40,COM_Mike Enriquez
+Nora Aunor,"Purok 5, Padang, Legazpi City",SOL-450W-RES,Nora:Owner,Purok 5,Padang,Legazpi City,SOL,450W,RES,Nora,Owner,Client: Nora Aunor - Address: Purok 5,RES_Nora Aunor
+Oscar Isaac,"Bgy 1, Em's Barrio, Legazpi City",SOL-5KW-IND,Oscar:Lead,Bgy 1,Em's Barrio,Legazpi City,SOL,5KW,IND,Oscar,Lead,Client: Oscar Isaac - Address: Bgy 1,IND_Oscar Isaac
+Piolo Pascual,"Peñaranda St, Legazpi City",SOL-300W-RES,Piolo:Owner,Peñaranda St,Legazpi City,,SOL,300W,RES,Piolo,Owner,Client: Piolo Pascual - Address: Peñaranda St,RES_Piolo Pascual
+Quinn Fabray,"Doña Maria Subd, Legazpi City",SOL-10KW-IND,Quinn:Manager,Doña Maria Subd,Legazpi City,,SOL,10KW,IND,Quinn,Manager,Client: Quinn Fabray - Address: Doña Maria Subd,IND_Quinn Fabray
+Rico Yan,"Bgy 17, Rizal St, Legazpi City",SOL-450W-RES,Rico:Owner,Bgy 17,Rizal St,Legazpi City,SOL,450W,RES,Rico,Owner,Client: Rico Yan - Address: Bgy 17,RES_Rico Yan
+Shaina Magdayao,"Purok 2, Mabinit, Legazpi City",SOL-550W-COM,Shaina:Director,Purok 2,Mabinit,Legazpi City,SOL,550W,COM,Shaina,Director,Client: Shaina Magdayao - Address: Purok 2,COM_Shaina Magdayao
+Toni Gonzaga,"Taytay, Legazpi City",SOL-300W-RES,Toni:Owner,Taytay,Legazpi City,,SOL,300W,RES,Toni,Owner,Client: Toni Gonzaga - Address: Taytay,RES_Toni Gonzaga
+Ursula Corbero,"Bgy 59, Purok 1, Legazpi City",SOL-1KW-COM,Ursula:Lead,Bgy 59,Purok 1,Legazpi City,SOL,1KW,COM,Ursula,Lead,Client: Ursula Corbero - Address: Bgy 59,COM_Ursula Corbero
+Vic Sotto,"Landco Business Park, Legazpi City",SOL-450W-RES,Vic:Owner,Landco Business Park,Legazpi City,,SOL,450W,RES,Vic,Owner,Client: Vic Sotto - Address: Landco Business Park,RES_Vic Sotto
+Wendy Tablate,"Purok 7, Bagong Abre, Legazpi City",SOL-5KW-IND,Wendy:Admin,Purok 7,Bagong Abre,Legazpi City,SOL,5KW,IND,Wendy,Admin,Client: Wendy Tablate - Address: Purok 7,IND_Wendy Tablate
+Xander Ford,"Bgy 12, Oro Site, Legazpi City",SOL-300W-RES,Xander:Owner,Bgy 12,Oro Site,Legazpi City,SOL,300W,RES,Xander,Owner,Client: Xander Ford - Address: Bgy 12,RES_Xander Ford
+Yassi Pressman,"Purok 3, Gogon, Legazpi City",SOL-10KW-IND,Yassi:Manager,Purok 3,Gogon,Legazpi City,SOL,10KW,IND,Yassi,Manager,Client: Yassi Pressman - Address: Purok 3,IND_Yassi Pressman
+Zanjoe Marudo,"Washington Drive, Legazpi City",SOL-450W-RES,Zanjoe:Owner,Washington Drive,Legazpi City,,SOL,450W,RES,Zanjoe,Owner,Client: Zanjoe Marudo - Address: Washington Drive,RES_Zanjoe Marudo
+Arthur Nery,"Bgy 16, Kawit-East, Legazpi City",SOL-550W-COM,Arthur:Lead,Bgy 16,Kawit-East,Legazpi City,SOL,550W,COM,Arthur,Lead,Client: Arthur Nery - Address: Bgy 16,COM_Arthur Nery
+Bella Poarch,"Purok 4, Dap-Dap, Legazpi City",SOL-300W-RES,Bella:Owner,Purok 4,Dap-Dap,Legazpi City,SOL,300W,RES,Bella,Owner,Client: Bella Poarch - Address: Purok 4,RES_Bella Poarch
+Coco Martin,"Bgy 14, Ilawod, Legazpi City",SOL-1KW-COM,Coco:Director,Bgy 14,Ilawod,Legazpi City,SOL,1KW,COM,Coco,Director,Client: Coco Martin - Address: Bgy 14,COM_Coco Martin
+Daniel Padilla,"Purok 1, Homapon, Legazpi City",SOL-450W-RES,Daniel:Owner,Purok 1,Homapon,Legazpi City,SOL,450W,RES,Daniel,Owner,Client: Daniel Padilla - Address: Purok 1,RES_Daniel Padilla
+Enrique Gil,"Bgy 9, Pinaric, Legazpi City",SOL-5KW-IND,Enrique:Lead,Bgy 9,Pinaric,Legazpi City,SOL,5KW,IND,Enrique,Lead,Client: Enrique Gil - Address: Bgy 9,IND_Enrique Gil
+Francine Diaz,"Purok 6, Banquerohan, Legazpi City",SOL-300W-RES,Francine:Owner,Purok 6,Banquerohan,Legazpi City,SOL,300W,RES,Francine,Owner,Client: Francine Diaz - Address: Purok 6,RES_Francine Diaz
+Gerald Anderson,"Bgy 11, Maoyod, Legazpi City",SOL-10KW-IND,Gerald:Manager,Bgy 11,Maoyod,Legazpi City,SOL,10KW,IND,Gerald,Manager,Client: Gerald Anderson - Address: Bgy 11,IND_Gerald Anderson
+Heart Evangelista,"Imperial Ridgeview, Legazpi City",SOL-450W-RES,Heart:Owner,Imperial Ridgeview,Legazpi City,,SOL,450W,RES,Heart,Owner,Client: Heart Evangelista - Address: Imperial Ridgeview,RES_Heart Evangelista
+Ivana Alawi,"Purok 2, Bariis, Legazpi City",SOL-550W-COM,Ivana:Director,Purok 2,Bariis,Legazpi City,SOL,550W,COM,Ivana,Director,Client: Ivana Alawi - Address: Purok 2,COM_Ivana Alawi
+James Reid,"Bgy 13, Bañadero, Legazpi City",SOL-300W-RES,James:Owner,Bgy 13,Bañadero,Legazpi City,SOL,300W,RES,James,Owner,Client: James Reid - Address: Bgy 13,RES_James Reid
+Kathryn Bernardo,"Purok 5, Maslog, Legazpi City",SOL-1KW-COM,Kathryn:Lead,Purok 5,Maslog,Legazpi City,SOL,1KW,COM,Kathryn,Lead,Client: Kathryn Bernardo - Address: Purok 5,COM_Kathryn Bernardo
+Luis Manzano,"Bgy 19, Cabangan, Legazpi City",SOL-450W-RES,Luis:Owner,Bgy 19,Cabangan,Legazpi City,SOL,450W,RES,Luis,Owner,Client: Luis Manzano - Address: Bgy 19,RES_Luis Manzano
+Maja Salvador,"Purok 3, Bogtong, Legazpi City",SOL-5KW-IND,Maja:Admin,Purok 3,Bogtong,Legazpi City,SOL,5KW,IND,Maja,Admin,Client: Maja Salvador - Address: Purok 3,IND_Maja Salvador
+Nadine Lustre,"Bgy 2, Em's Barrio, Legazpi City",SOL-300W-RES,Nadine:Owner,Bgy 2,Em's Barrio,Legazpi City,SOL,300W,RES,Nadine,Owner,Client: Nadine Lustre - Address: Bgy 2,RES_Nadine Lustre
+Ogie Alcasid,"Purok 4, Bagacay, Legazpi City",SOL-10KW-IND,Ogie:Manager,Purok 4,Bagacay,Legazpi City,SOL,10KW,IND,Ogie,Manager,Client: Ogie Alcasid - Address: Purok 4,IND_Ogie Alcasid
+Pia Wurtzbach,"Bgy 8, Bagumbayan, Legazpi City",SOL-450W-RES,Pia:Owner,Bgy 8,Bagumbayan,Legazpi City,SOL,450W,RES,Pia,Owner,Client: Pia Wurtzbach - Address: Bgy 8,RES_Pia Wurtzbach

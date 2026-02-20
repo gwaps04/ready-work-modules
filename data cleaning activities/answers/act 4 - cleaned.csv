@@ -1,0 +1,51 @@
+Project_Date,Client_Name,Total_Cost,Panels_Installed,Audit_Status,Cost_Per_Panel,Data Check
+2026-01-05,Reynold Magdaong,85000,10.0,Complete,8500.0,OK
+2026-01-07,,120000,15.0,Pending,8000.0,MISSING NAME
+2026-01-10,Jonathan Sy,0,0.0,Complete,0.0,OK
+2026-01-12,Lilibeth Oraye,45000,5.0,In Progress,9000.0,OK
+2026-01-15,Mark Dantes,95000,12.0,Complete,7916.666666666667,OK
+2026-01-18,Elena Rossi,250000,,Complete,0.0,OK
+2026-01-20,Roberto Guanzon,180000,20.0,Complete,9000.0,OK
+2026-01-22,,45000,5.0,Pending,9000.0,MISSING NAME
+2026-01-25,Fernando Poe,1000000,100.0,Complete,10000.0,OK
+2026-01-28,Gina Lopez,85000,0.0,Complete,0.0,OK
+2026-01-30,Paolo Reyes,120000,15.0,In Progress,8000.0,OK
+2026-02-02,Clara Belle,75000,8.0,Complete,9375.0,OK
+2026-02-04,,0,0.0,Pending,0.0,MISSING NAME
+2026-02-06,Fiona Mae,45000,5.0,Complete,9000.0,OK
+2026-02-09,Gregory House,450000,45.0,In Progress,10000.0,OK
+2026-02-11,Hannah Montana,75000,8.0,Complete,9375.0,OK
+2026-02-14,Ian Somerhalder,1000000,100.0,Complete,10000.0,OK
+2026-02-16,,85000,10.0,Pending,8500.0,MISSING NAME
+2026-02-18,Kevin Kwok,120000,15.0,Complete,8000.0,OK
+2026-02-21,Liza Soberano,75000,8.0,Complete,9375.0,OK
+2026-02-23,Mike Enriquez,95000,0.0,Complete,0.0,OK
+2026-02-25,Nora Aunor,85000,10.0,In Progress,8500.0,OK
+2026-02-28,Oscar Isaac,450000,45.0,Complete,10000.0,OK
+2026-03-02,,75000,8.0,Pending,9375.0,MISSING NAME
+2026-03-05,Quinn Fabray,1000000,100.0,Complete,10000.0,OK
+2026-03-07,Rico Yan,85000,10.0,Complete,8500.0,OK
+2026-03-10,Shaina Magdayao,120000,15.0,In Progress,8000.0,OK
+2026-03-12,Toni Gonzaga,75000,8.0,Complete,9375.0,OK
+2026-03-15,Ursula Corbero,95000,0.0,Complete,0.0,OK
+2026-03-18,Vic Sotto,85000,10.0,Complete,8500.0,OK
+2026-03-20,,450000,45.0,Pending,10000.0,MISSING NAME
+2026-03-23,Xander Ford,75000,8.0,Complete,9375.0,OK
+2026-03-25,Yassi Pressman,1000000,100.0,In Progress,10000.0,OK
+2026-03-28,Zanjoe Marudo,85000,10.0,Complete,8500.0,OK
+2026-03-30,Arthur Nery,120000,15.0,Complete,8000.0,OK
+2026-04-02,,75000,8.0,Pending,9375.0,MISSING NAME
+2026-04-05,Coco Martin,95000,0.0,Complete,0.0,OK
+2026-04-07,Daniel Padilla,85000,10.0,Complete,8500.0,OK
+2026-04-10,Enrique Gil,450000,45.0,In Progress,10000.0,OK
+2026-04-12,Francine Diaz,75000,8.0,Complete,9375.0,OK
+2026-04-15,Gerald Anderson,1000000,100.0,Complete,10000.0,OK
+2026-04-18,,85000,10.0,Pending,8500.0,MISSING NAME
+2026-04-20,Ivana Alawi,120000,15.0,Complete,8000.0,OK
+2026-04-23,James Reid,75000,8.0,Complete,9375.0,OK
+2026-04-25,Kathryn Bernardo,95000,0.0,Complete,0.0,OK
+2026-04-28,Luis Manzano,85000,10.0,In Progress,8500.0,OK
+2026-05-01,Maja Salvador,450000,45.0,Complete,10000.0,OK
+2026-05-04,,75000,8.0,Pending,9375.0,MISSING NAME
+2026-05-07,Ogie Alcasid,1000000,100.0,Complete,10000.0,OK
+2026-05-10,Pia Wurtzbach,85000,10.0,Complete,8500.0,OK

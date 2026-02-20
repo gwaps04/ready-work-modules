@@ -1,0 +1,51 @@
+Log_ID,Component_Installed,Supplier_Code,Status_Notes
+LOG-001,Mono Solar Panel 450W,ARAW,Installed-OK
+LOG-002,Monosolar Panel 450W,ARAW,Installed-OK
+LOG-003,Lithium Battery 100Ah,BPG-GRID,Pending-Charge
+LOG-004,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-005,Mono Solar Panel 450W,ALB-TECH,Installed-OK
+LOG-006,Solar Cable 6Mm,ARAW,Installed-OK
+LOG-007,Inverter 5Kw (Gen2 Hybrid),ALB-TECH,Installed-OK
+LOG-008,Mono Solar Panel 450W,BPG-GRID,Installed-OK
+LOG-009,Monosolar Panel 450W,ARAW,Installed-OK
+LOG-010,Deep Cycle Battery,ALB-TECH,Installed-OK
+LOG-011,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-012,Solar Cable 6Mm,BPG-GRID,Installed-OK
+LOG-013,Mono Solar Panel 450W,ALB-TECH,Installed-OK
+LOG-014,Lithium Battery 100Ah,ARAW,Installed-OK
+LOG-015,Monosolar Panel 450W,BPG-GRID,Installed-OK
+LOG-016,Inverter 5Kw (Gen2 Hybrid),ALB-TECH,Installed-OK
+LOG-017,Deep Cycle Battery,ARAW,Installed-OK
+LOG-018,Solar Cable 6Mm,ALB-TECH,Installed-OK
+LOG-019,Mono Solar Panel 450W,BPG-GRID,Installed-OK
+LOG-020,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-021,Lithium Battery 100Ah,ALB-TECH,Installed-OK
+LOG-022,Monosolar Panel 450W,ARAW,Installed-OK
+LOG-023,Solar Cable 6Mm,BPG-GRID,Installed-OK
+LOG-024,Mono Solar Panel 450W,ALB-TECH,Installed-OK
+LOG-025,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-026,Deep Cycle Battery,BPG-GRID,Installed-OK
+LOG-027,Solar Cable 6Mm,ALB-TECH,Installed-OK
+LOG-028,Monosolar Panel 450W,ARAW,Installed-OK
+LOG-029,Lithium Battery 100Ah,BPG-GRID,Installed-OK
+LOG-030,Inverter 5Kw (Gen2 Hybrid),ALB-TECH,Installed-OK
+LOG-031,Mono Solar Panel 450W,ARAW,Installed-OK
+LOG-032,Solar Cable 6Mm,BPG-GRID,Installed-OK
+LOG-033,Monosolar Panel 450W,ALB-TECH,Installed-OK
+LOG-034,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-035,Deep Cycle Battery,BPG-GRID,Installed-OK
+LOG-036,Lithium Battery 100Ah,ALB-TECH,Installed-OK
+LOG-037,Solar Cable 6Mm,ARAW,Installed-OK
+LOG-038,Mono Solar Panel 450W,BPG-GRID,Installed-OK
+LOG-039,Monosolar Panel 450W,ALB-TECH,Installed-OK
+LOG-040,Inverter 5Kw (Gen2 Hybrid),ARAW,Installed-OK
+LOG-041,Solar Cable 6Mm,BPG-GRID,Installed-OK
+LOG-042,Deep Cycle Battery,ALB-TECH,Installed-OK
+LOG-043,Lithium Battery 100Ah,ARAW,Installed-OK
+LOG-044,Monosolar Panel 450W,BPG-GRID,Installed-OK
+LOG-045,Inverter 5Kw (Gen2 Hybrid),ALB-TECH,Installed-OK
+LOG-046,Solar Cable 6Mm,ARAW,Installed-OK
+LOG-047,Mono Solar Panel 450W,BPG-GRID,Installed-OK
+LOG-048,Deep Cycle Battery,ALB-TECH,Installed-OK
+LOG-049,Lithium Battery 100Ah,ARAW,Installed-OK
+LOG-050,Inverter 5Kw (Gen2 Hybrid),BPG-GRID,Installed-OK

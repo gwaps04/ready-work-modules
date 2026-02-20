@@ -1,0 +1,51 @@
+Date,Region,Category,Product,Sales,Quantity,Channel
+2025-01-01,North America,Electronics,Laptop,1200,1,Online
+2025-01-02,Europe,Accessories,Mouse,25,5,Retail
+2025-01-03,Asia,Electronics,Smartphone,800,2,Online
+2025-01-04,North America,Accessories,Keyboard,50,3,Retail
+2025-01-05,Europe,Electronics,Tablet,450,1,Online
+2025-01-06,Asia,Accessories,Headphones,150,2,Online
+2025-01-07,North America,Electronics,Monitor,300,2,Retail
+2025-01-08,Europe,Electronics,Laptop,1200,1,Online
+2025-01-09,Asia,Accessories,Mouse,25,10,Retail
+2025-01-10,North America,Electronics,Smartphone,800,1,Online
+2025-01-11,Europe,Accessories,Keyboard,50,5,Retail
+2025-01-12,Asia,Electronics,Tablet,450,2,Online
+2025-01-13,North America,Accessories,Headphones,150,1,Retail
+2025-01-14,Europe,Electronics,Monitor,300,3,Online
+2025-01-15,Asia,Electronics,Laptop,1200,1,Retail
+2025-01-16,North America,Accessories,Mouse,25,8,Online
+2025-01-17,Europe,Electronics,Smartphone,800,2,Retail
+2025-01-18,Asia,Accessories,Keyboard,50,4,Online
+2025-01-19,North America,Electronics,Tablet,450,1,Retail
+2025-01-20,Europe,Accessories,Headphones,150,5,Online
+2025-01-21,Asia,Electronics,Monitor,300,1,Retail
+2025-01-22,North America,Electronics,Laptop,1200,2,Online
+2025-01-23,Europe,Accessories,Mouse,25,12,Retail
+2025-01-24,Asia,Electronics,Smartphone,800,1,Online
+2025-01-25,North America,Accessories,Keyboard,50,2,Retail
+2025-01-26,Europe,Electronics,Tablet,450,3,Online
+2025-01-27,Asia,Accessories,Headphones,150,1,Retail
+2025-01-28,North America,Electronics,Monitor,300,4,Online
+2025-01-29,Europe,Electronics,Laptop,1200,1,Retail
+2025-01-30,Asia,Accessories,Mouse,25,6,Online
+2025-02-01,North America,Electronics,Smartphone,800,2,Retail
+2025-02-02,Europe,Accessories,Keyboard,50,10,Online
+2025-02-03,Asia,Electronics,Tablet,450,1,Retail
+2025-02-04,North America,Accessories,Headphones,150,3,Online
+2025-02-05,Europe,Electronics,Monitor,300,2,Retail
+2025-02-06,Asia,Electronics,Laptop,1200,1,Online
+2025-02-07,North America,Accessories,Mouse,25,15,Retail
+2025-02-08,Europe,Electronics,Smartphone,800,1,Online
+2025-02-09,Asia,Accessories,Keyboard,50,2,Retail
+2025-02-10,North America,Electronics,Tablet,450,2,Online
+2025-02-11,Europe,Accessories,Headphones,150,4,Retail
+2025-02-12,Asia,Electronics,Monitor,300,1,Online
+2025-02-13,North America,Electronics,Laptop,1200,1,Retail
+2025-02-14,Europe,Accessories,Mouse,25,20,Online
+2025-02-15,Asia,Electronics,Smartphone,800,3,Retail
+2025-02-16,North America,Accessories,Keyboard,50,5,Online
+2025-02-17,Europe,Electronics,Tablet,450,1,Retail
+2025-02-18,Asia,Accessories,Headphones,150,2,Online
+2025-02-19,North America,Electronics,Monitor,300,2,Retail
+2025-02-20,Europe,Electronics,Laptop,1200,1,Online

@@ -1,0 +1,51 @@
+Date,Item Name,Supplier,Quantity,Unit Price,Storage Location
+2026-01-15,Mono Solar Panel 450W,Araw Energy Solutions,20,8500,Warehouse A
+2026-01-16,Lithium Battery 100Ah,Bicol Power Grid,10,15000,Warehouse B
+2026-01-17,Solar Charge Controller,albaysolar tech,15,2200,Warehouse A
+2026-01-18,Mounting Rails 2M,Araw Energy Solutions,50,1200,Warehouse C
+2026-01-19,Mc4 Connectors (Pair),Bicol Power Grid,100,150,Warehouse A
+2026-01-20,Inverter 3Kw Hybrid,ALBAYSOLAR TECH,5,35000,Warehouse B
+2026-01-21,Dc Cable 6Mm (Red),Araw Energy Solutions,200,85,Warehouse C
+2026-01-22,Mono Solar Panel 450W,Bicol Power Grid,10,8500,Warehouse A
+2026-01-23,Grounding Lug,albaysolar tech,50,75,Warehouse B
+2026-01-24,Circuit Breaker 32A Dc,Araw Energy Solutions,30,450,Warehouse A
+2026-01-25,Lithium Battery 100Ah,Bicol Power Grid,5,15000,Warehouse B
+2026-01-26,Deep Cycle Battery 200Ah,ALBAYSOLAR TECH,8,12000,Warehouse C
+2026-01-27,Solar Cable 4Mm (Black),Araw Energy Solutions,150,65,Warehouse A
+2026-01-28,Inverter 5Kw Off-Grid,Bicol Power Grid,3,48000,Warehouse B
+2026-01-29,Pv Combiner Box,albaysolar tech,12,4500,Warehouse A
+2026-01-30,Roof Hooks (Tile),Araw Energy Solutions,80,350,Warehouse C
+2026-02-01,Mono Solar Panel 550W,Bicol Power Grid,25,9200,Warehouse A
+2026-02-02,Lithium Battery 200Ah,ALBAYSOLAR TECH,6,28000,Warehouse B
+2026-02-03,Smart Meter,Araw Energy Solutions,10,3200,Warehouse A
+2026-02-04,Dc Isolator Switch,Bicol Power Grid,20,1100,Warehouse C
+2026-02-05,Battery Rack 4-Tier,albaysolar tech,4,5500,Warehouse B
+2026-02-06,Solar Cable 6Mm (Blue),Araw Energy Solutions,100,90,Warehouse A
+2026-02-07,Inverter 10Kw On-Grid,Bicol Power Grid,2,75000,Warehouse A
+2026-02-08,Mc4 T-Branch Connectors,ALBAYSOLAR TECH,40,250,Warehouse C
+2026-02-09,Aluminum Mid-Clamps,Araw Energy Solutions,200,45,Warehouse A
+2026-02-10,End-Clamps 35Mm,Bicol Power Grid,200,45,Warehouse B
+2026-02-11,Surge Protection Device,albaysolar tech,15,1800,Warehouse A
+2026-02-12,Mono Solar Panel 400W,Araw Energy Solutions,30,7800,Warehouse C
+2026-02-13,Hybrid Inverter 5Kw,Bicol Power Grid,8,42000,Warehouse B
+2026-02-14,Lithium Wall Battery,ALBAYSOLAR TECH,2,95000,Warehouse A
+2026-02-15,Dc Breaker 63A,Araw Energy Solutions,25,600,Warehouse A
+2026-02-16,Solar Rail Splice,Bicol Power Grid,60,180,Warehouse C
+2026-02-17,Flexible Conduit 20Mm,albaysolar tech,10,850,Warehouse B
+2026-02-18,Wifi Monitoring Dongle,Araw Energy Solutions,12,1500,Warehouse A
+2026-02-19,Grounding Rod 1.5M,Bicol Power Grid,20,1200,Warehouse A
+2026-02-20,Mono Solar Panel 450W,ALBAYSOLAR TECH,15,8500,Warehouse C
+2026-02-21,Battery Cable 25Mm,Araw Energy Solutions,40,450,Warehouse B
+2026-02-22,Solar Warning Labels,Bicol Power Grid,100,15,Warehouse A
+2026-02-23,Inverter 2Kw Portable,albaysolar tech,5,18000,Warehouse B
+2026-02-24,Roof Sealing Tape,Araw Energy Solutions,20,950,Warehouse C
+2026-02-25,Mc4 Crimping Tool,Bicol Power Grid,10,2500,Warehouse A
+2026-02-26,Poly Solar Panel 300W,ALBAYSOLAR TECH,12,5500,Warehouse B
+2026-02-27,Charge Controller 60A,Araw Energy Solutions,18,3500,Warehouse A
+2026-02-28,Ac Circuit Breaker 20A,Bicol Power Grid,40,350,Warehouse C
+2026-03-01,Solar Flood Light 100W,albaysolar tech,50,1200,Warehouse B
+2026-03-02,Battery Busbar,Araw Energy Solutions,24,850,Warehouse A
+2026-03-03,Pv Wire 10Awg (50Ft),Bicol Power Grid,15,2200,Warehouse A
+2026-03-04,Mounting L-Feet,ALBAYSOLAR TECH,150,120,Warehouse C
+2026-03-05,Solar Attic Fan,Araw Energy Solutions,4,8500,Warehouse B
+2026-03-06,Inverter 1Kw Sine Wave,Bicol Power Grid,6,12000,Warehouse A
