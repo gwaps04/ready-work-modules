@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Command Masterclass: JS, React & Node</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --cmd-bg: #1e293b; --cmd-text: #38bdf8; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #334155; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 700px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        .terminal-window {
+            background-color: var(--cmd-bg);
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+        .terminal-header {
+            background-color: #334155;
+            padding: 8px 16px;
+            display: flex;
+            gap: 6px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .copy-success { animation: bounce 0.5s ease; }
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .hidden-content { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <!-- Chosen Palette: Midnight Slate (Terminal Components), Sky Blue (Primary Action), Emerald (Success), Amber (Warning) -->
+    <!-- Application Structure Plan: 
+         1. Hero: Set the stage—The CLI is a developer's lightsaber.
+         2. Command Explorer: Filterable grid of essential commands (Setup, Install, Scripts).
+         3. Project Kickstart Lab: Interactive "Builder" that generates a sequence of commands for a new VNR project.
+         4. Dependency Insight: Chart.js visualization showing the relationship between Dev and Production dependencies.
+         5. The "Why": Information on environment variables and path management.
+         The structure focuses on the "Order of Operations" for starting a project to ensure students don't get lost in the terminal.
+    -->
+    <!-- Visualization & Content Choices:
+         - Command Grid -> Filterable HTML elements -> Allows quick discovery.
+         - Project Builder -> Logic-based JS Generator -> Shows the real-world sequence of a project start.
+         - Dependency Roles -> Bar Chart (Chart.js) -> Clarifies 'Save' vs 'Save-Dev'.
+         - NO SVG: Using Unicode (💻, 🚀, 📦, 🛠️) and styled HTML dots.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">💻</span>
+                <span class="font-extrabold text-xl tracking-tight text-slate-900 underline decoration-sky-500">Terminal <span class="text-sky-600">Mastery</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-500">
+                <button onclick="scrollToSection('explorer')" class="hover:text-sky-600 transition">Command Explorer</button>
+                <button onclick="scrollToSection('lab')" class="hover:text-sky-600 transition">Kickstart Lab</button>
+                <button onclick="scrollToSection('dependencies')" class="hover:text-sky-600 transition">Dependency Insights</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        
+        <!-- Hero Section -->
+        <header class="text-center mb-20">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+                Speak the <span class="text-sky-600">Language</span> of the Machine
+            </h1>
+            <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                Modern full-stack development happens in the terminal. Master these essential commands to build, manage, and deploy your React and Node.js applications with confidence.
+            </p>
+        </header>
+
+        <!-- SECTION 1: COMMAND EXPLORER -->
+        <section id="explorer" class="mb-24">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-10">
+                <div class="max-w-lg">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">🔎 Command Explorer</h2>
+                    <p class="text-slate-500">Search and filter the core commands used in everyday development.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="filterCommands('all')" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-sm font-bold hover:bg-sky-100 hover:text-sky-700 transition" id="btn-all">All</button>
+                    <button onclick="filterCommands('setup')" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-sm font-bold hover:bg-sky-100 hover:text-sky-700 transition" id="btn-setup">Setup</button>
+                    <button onclick="filterCommands('install')" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-sm font-bold hover:bg-sky-100 hover:text-sky-700 transition" id="btn-install">Installation</button>
+                    <button onclick="filterCommands('project')" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-sm font-bold hover:bg-sky-100 hover:text-sky-700 transition" id="btn-project">Workflow</button>
+                </div>
+            </div>
+
+            <div id="command-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Commands injected by JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 2: KICKSTART LAB -->
+        <section id="lab" class="mb-24 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-slate-100 overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-sky-50 rounded-bl-full -z-10"></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6">🚀 Project Kickstart Lab</h2>
+                    <p class="text-slate-600 mb-8">
+                        Select your project type and we'll generate the exact sequence of commands to get you from an empty folder to a running application.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">1. Project Type</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="setProject('react')" id="opt-react" class="p-4 border-2 border-slate-200 rounded-xl text-left hover:border-sky-500 transition active:scale-95 bg-white">
+                                    <span class="block text-xl mb-1">⚛️</span>
+                                    <span class="font-bold block">Vite + React</span>
+                                    <span class="text-xs text-slate-500">Frontend Only</span>
+                                </button>
+                                <button onclick="setProject('node')" id="opt-node" class="p-4 border-2 border-slate-200 rounded-xl text-left hover:border-sky-500 transition active:scale-95 bg-white">
+                                    <span class="block text-xl mb-1">🟢</span>
+                                    <span class="font-bold block">Express Server</span>
+                                    <span class="text-xs text-slate-500">Backend Only</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">2. Options</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+                                    <input type="checkbox" id="check-git" checked class="w-5 h-5 accent-sky-600">
+                                    <span class="text-sm font-semibold">Initialize Git Repository</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+                                    <input type="checkbox" id="check-install" checked class="w-5 h-5 accent-sky-600">
+                                    <span class="text-sm font-semibold">Automatic Install (npm install)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="terminal-window flex-1 flex flex-col min-h-[400px]">
+                        <div class="terminal-header">
+                            <div class="dot bg-red-500"></div>
+                            <div class="dot bg-yellow-500"></div>
+                            <div class="dot bg-green-500"></div>
+                            <span class="ml-4 text-slate-400 text-[10px] font-bold uppercase tracking-widest self-center">zsh — project-setup.sh</span>
+                        </div>
+                        <div class="p-6 mono text-sm flex-1 overflow-y-auto">
+                            <div id="sequence-output" class="space-y-4">
+                                <!-- Command steps injected here -->
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-800 border-t border-slate-700 flex justify-between items-center">
+                            <span class="text-[10px] text-slate-500">Estimated time: ~2 minutes</span>
+                            <button onclick="copyAllCommands()" class="text-xs font-bold text-sky-400 hover:text-sky-300 transition flex items-center gap-2">
+                                📋 Copy Script
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DEPENDENCY INSIGHTS -->
+        <section id="dependencies" class="mb-32">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">📦 Understanding package.json</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    A project's health depends on how you install your tools. Learn the difference between <strong>Dependencies</strong> and <strong>Dev-Dependencies</strong>.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-sky-500">📊</span> Dependency Usage Chart
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="depChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <h4 class="font-bold text-emerald-900 mb-2 flex items-center gap-2">
+                            <span>🚀</span> Production Dependencies
+                        </h4>
+                        <p class="text-sm text-emerald-700">
+                            Required for the app to <strong>run</strong> for the user. Examples: React, Express, Axios.
+                            <br><code class="block mt-2 font-bold">npm install [name]</code>
+                        </p>
+                    </div>
+
+                    <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100">
+                        <h4 class="font-bold text-amber-900 mb-2 flex items-center gap-2">
+                            <span>🛠️</span> Dev-Dependencies
+                        </h4>
+                        <p class="text-sm text-amber-700">
+                            Only used for <strong>building</strong> the app. Not sent to the user. Examples: Vite, Nodemon, ESLint.
+                            <br><code class="block mt-2 font-bold">npm install -D [name]</code>
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-900 rounded-xl text-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="text-xs font-bold uppercase text-slate-400">Pro Tip</span>
+                        </div>
+                        <p class="text-xs leading-relaxed text-slate-300">
+                            Always check your <code>package.json</code> after installing. If a tool like <code>nodemon</code> is in the regular "dependencies" list, your server will be heavier than it needs to be!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Closing CTA -->
+        <section class="text-center py-20 bg-slate-900 rounded-[3rem] text-white">
+            <h2 class="text-4xl font-bold mb-6">Ready to Build?</h2>
+            <p class="text-slate-400 mb-10 max-w-xl mx-auto">
+                Open your VS Code terminal (Ctrl + `) and try running your first command. Your future apps are just a few keystrokes away.
+            </p>
+            <div class="flex justify-center gap-4">
+                <button onclick="scrollToSection('explorer')" class="px-8 py-3 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition">View Commands</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-slate-100 text-center">
+        <p class="text-slate-400 text-sm">&copy; 2024 Terminal Masterclass for Graduating Students. Built for clarity.</p>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        const commands = [
+            // SETUP
+            { cmd: "node -v", desc: "Check if Node.js is installed and see version.", category: "setup" },
+            { cmd: "npm -v", desc: "Check if NPM is installed and see version.", category: "setup" },
+            { cmd: "npm init -y", desc: "Start a new Node project with default settings.", category: "setup" },
+            
+            // INSTALLATION
+            { cmd: "npm create vite@latest", desc: "The fastest way to start a React/Vue frontend project.", category: "install" },
+            { cmd: "npm install", desc: "Installs all libraries listed in package.json.", category: "install" },
+            { cmd: "npm install express", desc: "Install a specific package (e.g. Express) to your project.", category: "install" },
+            { cmd: "npm install -D nodemon", desc: "Install a tool only for development (Dev-Dependency).", category: "install" },
+            { cmd: "npm uninstall [name]", desc: "Completely remove a package and its files.", category: "install" },
+
+            // WORKFLOW
+            { cmd: "npm run dev", desc: "Start the local development server (Standard for Vite).", category: "project" },
+            { cmd: "npm run build", desc: "Bundle your code for production deployment.", category: "project" },
+            { cmd: "npm run preview", desc: "Check the production build on your local machine.", category: "project" },
+            { cmd: "ls", desc: "List all files in the current folder (macOS/Linux).", category: "project" },
+            { cmd: "dir", desc: "List all files in the current folder (Windows).", category: "project" },
+            { cmd: "cd [folder-name]", desc: "Move inside a specific folder.", category: "project" }
+        ];
+
+        let activeProject = 'react';
+
+        // --- COMMAND EXPLORER LOGIC ---
+        function renderCommands(filter = 'all') {
+            const container = document.getElementById('command-grid');
+            container.innerHTML = '';
+            
+            const filtered = filter === 'all' ? commands : commands.filter(c => c.category === filter);
+
+            filtered.forEach(c => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col hover:border-sky-300 transition-all fade-in";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <code class="px-3 py-1 bg-slate-100 text-sky-600 rounded font-bold mono text-sm">${c.cmd}</code>
+                        <button onclick="copyCmd('${c.cmd}', this)" class="text-slate-300 hover:text-sky-500 transition">📋</button>
+                    </div>
+                    <p class="text-sm text-slate-500 leading-relaxed">${c.desc}</p>
+                `;
+                container.appendChild(card);
+            });
+
+            // Update active state of filter buttons
+            ['all', 'setup', 'install', 'project'].forEach(f => {
+                const btn = document.getElementById(`btn-${f}`);
+                if (f === filter) {
+                    btn.classList.add('bg-sky-600', 'text-white');
+                    btn.classList.remove('bg-slate-200', 'text-slate-700');
+                } else {
+                    btn.classList.remove('bg-sky-600', 'text-white');
+                    btn.classList.add('bg-slate-200', 'text-slate-700');
+                }
+            });
+        }
+
+        function filterCommands(cat) {
+            renderCommands(cat);
+        }
+
+        function copyCmd(text, btn) {
+            const temp = document.createElement('input');
+            document.body.appendChild(temp);
+            temp.value = text;
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            
+            btn.textContent = "✅";
+            btn.classList.add('copy-success');
+            setTimeout(() => {
+                btn.textContent = "📋";
+                btn.classList.remove('copy-success');
+            }, 1000);
+        }
+
+        // --- KICKSTART LAB LOGIC ---
+        function setProject(type) {
+            activeProject = type;
+            const btnR = document.getElementById('opt-react');
+            const btnN = document.getElementById('opt-node');
+            
+            if(type === 'react') {
+                btnR.classList.add('border-sky-500', 'bg-sky-50');
+                btnN.classList.remove('border-sky-500', 'bg-sky-50');
+            } else {
+                btnN.classList.add('border-sky-500', 'bg-sky-50');
+                btnR.classList.remove('border-sky-500', 'bg-sky-50');
+            }
+            generateSequence();
+        }
+
+        function generateSequence() {
+            const useGit = document.getElementById('check-git').checked;
+            const useInstall = document.getElementById('check-install').checked;
+            const out = document.getElementById('sequence-output');
+            out.innerHTML = '';
+
+            let steps = [];
+            
+            if (activeProject === 'react') {
+                steps.push({ c: "npm create vite@latest my-app -- --template react", d: "Creates the project folder structure." });
+                steps.push({ c: "cd my-app", d: "Enters the project directory." });
+                if (useInstall) steps.push({ c: "npm install", d: "Downloads React and Vite files." });
+                if (useGit) steps.push({ c: "git init", d: "Starts version control tracking." });
+                steps.push({ c: "npm run dev", d: "Launches the browser preview." });
+            } else {
+                steps.push({ c: "mkdir my-server && cd my-server", d: "Creates and enters a new folder." });
+                steps.push({ c: "npm init -y", d: "Generates the package.json file." });
+                if (useInstall) steps.push({ c: "npm install express", d: "Installs the web server framework." });
+                steps.push({ c: "npm install -D nodemon", d: "Installs the auto-restart tool for dev." });
+                if (useGit) steps.push({ c: "git init", d: "Starts version control tracking." });
+                steps.push({ c: "node index.js", d: "Starts your server." });
+            }
+
+            steps.forEach((s, idx) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = "flex gap-4 fade-in";
+                stepEl.style.animationDelay = `${idx * 0.1}s`;
+                stepEl.innerHTML = `
+                    <div class="flex-none text-sky-500 font-bold opacity-30 mt-1">${idx + 1}</div>
+                    <div>
+                        <div class="text-sky-300 font-bold tracking-wide">${s.c}</div>
+                        <div class="text-slate-500 text-[10px] uppercase mt-1"># ${s.d}</div>
+                    </div>
+                `;
+                out.appendChild(stepEl);
+            });
+        }
+
+        function copyAllCommands() {
+            const steps = document.querySelectorAll('#sequence-output .text-sky-300');
+            const fullScript = Array.from(steps).map(s => s.innerText).join(' && ');
+            
+            const temp = document.createElement('input');
+            document.body.appendChild(temp);
+            temp.value = fullScript;
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            
+            const btn = event.currentTarget;
+            btn.textContent = "✅ Script Copied!";
+            setTimeout(() => { btn.innerHTML = "📋 Copy Script"; }, 1500);
+        }
+
+        // --- CHART LOGIC ---
+        function initChart() {
+            const ctx = document.getElementById('depChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Runtime Speed', 'Bundle Size', 'Build Complexity', 'Dev Experience'],
+                    datasets: [
+                        {
+                            label: 'Production (Standard)',
+                            data: [100, 80, 40, 60],
+                            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                            borderColor: 'rgb(16, 185, 129)',
+                            borderWidth: 1,
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Development (-D)',
+                            data: [30, 20, 100, 100],
+                            backgroundColor: 'rgba(245, 158, 11, 0.6)',
+                            borderColor: 'rgb(245, 158, 11)',
+                            borderWidth: 1,
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            max: 100, 
+                            ticks: { display: false },
+                            grid: { display: false }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: { enabled: true }
+                    }
+                }
+            });
+        }
+
+        // --- UTILS ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initial setup
+        window.onload = function() {
+            renderCommands('all');
+            setProject('react');
+            initChart();
+            
+            // Add listeners for checkboxes
+            document.getElementById('check-git').addEventListener('change', generateSequence);
+            document.getElementById('check-install').addEventListener('change', generateSequence);
+        };
+    </script>
+</body>
+</html>

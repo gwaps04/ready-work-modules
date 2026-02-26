@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Project Anatomy: The Blueprint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fdfcfb; color: #334155; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 600px; 
+            margin: auto; 
+            height: 300px; 
+            max-height: 350px; 
+        }
+        .file-tree-item { transition: all 0.2s ease; cursor: pointer; }
+        .file-tree-item:hover { background-color: #f1f5f9; padding-left: 1.5rem; }
+        .active-file { background-color: #e2e8f0; border-left: 4px solid #3b82f6; padding-left: 1.5rem; }
+        .hidden-content { display: none; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Background), Soft Slate (Text), React Blue (Accent) -->
+    <!-- Application Structure Plan: 
+         1. Intro Section: The "Why" of project organization.
+         2. Interactive File Explorer: A visual "File Tree" where clicking a filename (App.jsx, main.jsx, etc.) reveals its internal logic and purpose.
+         3. Library Lab: A categorical breakdown of common libraries (Data, UI, Utilities) and why we install them.
+         4. Dependency Visualizer: Chart.js visualization of a typical project's weight distribution.
+         Chosen to provide a mental map of where code actually "lives" after installation.
+    -->
+    <!-- Visualization & Content Choices:
+         - File Tree -> Interactive HTML List -> Mimics a real VS Code sidebar for familiarity.
+         - File Purposes -> Logic-based JS Content Swap -> Explains App.jsx vs main.jsx in detail.
+         - Library Ecosystem -> Doughnut Chart (Chart.js) -> Visualizes the types of tools used (UI vs State vs Logic).
+         - NO SVG: Using Emojis (⚛️, 📁, 📄, 📦) and Tailwind borders/colors.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-orange-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">⚛️</span>
+                <span class="font-extrabold text-xl tracking-tight text-slate-800">React <span class="text-blue-600">Blueprint</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-500">
+                <button onclick="scrollToSection('structure')" class="hover:text-blue-600">File Structure</button>
+                <button onclick="scrollToSection('libraries')" class="hover:text-blue-600">Libraries</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        
+        <!-- Welcome Section -->
+        <header class="text-center mb-20">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Inside the Project Folder</h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                When you run <code>npm create vite@latest</code>, a complex folder structure is created. Let's explore what each file does and why we need external libraries.
+            </p>
+        </header>
+
+        <!-- SECTION 1: INTERACTIVE FILE EXPLORER -->
+        <section id="structure" class="mb-24">
+            <div class="mb-10 text-center lg:text-left">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">📁 Interactive File Explorer</h2>
+                <p class="text-slate-500">Click on a file below to see its code purpose and role in the app.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <!-- File Tree Sidebar -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm h-fit">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Project Directory</h3>
+                    <div class="space-y-1">
+                        <div class="p-3 font-bold text-slate-400 text-xs flex items-center gap-2">📂 Root</div>
+                        <div onclick="showFile('package')" class="file-tree-item p-3 rounded-xl text-sm font-semibold flex items-center gap-2" id="tree-package">📄 package.json</div>
+                        <div onclick="showFile('index')" class="file-tree-item p-3 rounded-xl text-sm font-semibold flex items-center gap-2" id="tree-index">📄 index.html</div>
+                        
+                        <div class="p-3 font-bold text-slate-400 text-xs flex items-center gap-2 mt-4">📂 src</div>
+                        <div onclick="showFile('main')" class="file-tree-item p-3 rounded-xl text-sm font-semibold flex items-center gap-2" id="tree-main">⚛️ main.jsx</div>
+                        <div onclick="showFile('app')" class="file-tree-item p-3 rounded-xl text-sm font-semibold flex items-center gap-2 active-file" id="tree-app">⚛️ App.jsx</div>
+                        <div onclick="showFile('assets')" class="file-tree-item p-3 rounded-xl text-sm font-semibold flex items-center gap-2" id="tree-assets">📂 assets/</div>
+                    </div>
+                </div>
+
+                <!-- Code/Detail Viewer -->
+                <div class="lg:col-span-2 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-4 right-8 text-slate-600 font-mono text-xs" id="file-ext">File Details</div>
+                    
+                    <div id="file-content" class="fade-in">
+                        <h3 class="text-2xl font-bold text-blue-400 mb-4" id="file-title">App.jsx</h3>
+                        <p class="text-slate-400 mb-8 leading-relaxed" id="file-desc">
+                            The heart of your application. This is where you build the main layout and combine all your smaller components together.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                                <h4 class="text-sm font-bold text-blue-300 mb-2 uppercase tracking-wide">Key Purpose</h4>
+                                <p class="text-sm text-slate-300" id="file-purpose">Handles the main component structure and top-level state management.</p>
+                            </div>
+                            <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                                <h4 class="text-sm font-bold text-blue-300 mb-2 uppercase tracking-wide">Code Analogy</h4>
+                                <p class="text-sm text-slate-300 italic" id="file-analogy">"The Manager of the restaurant who decides which chef cooks which dish."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: LIBRARY ECOSYSTEM -->
+        <section id="libraries" class="mb-32">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">📦 The Library Ecosystem</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    React is unopinionated. It doesn't include everything by default, so we install libraries to add specific powers to our app.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-bold mb-6 text-center">Software Palette</h3>
+                    <div class="chart-container">
+                        <canvas id="libraryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Library Card -->
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-blue-400 transition-colors">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="text-2xl">📡</span>
+                            <h4 class="font-bold text-slate-800">Axios / Fetch</h4>
+                        </div>
+                        <p class="text-sm text-slate-500"><strong>Purpose:</strong> Used for talking to your Node.js backend. It sends requests and receives data (JSON).</p>
+                    </div>
+
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-indigo-400 transition-colors">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="text-2xl">🛣️</span>
+                            <h4 class="font-bold text-slate-800">React Router</h4>
+                        </div>
+                        <p class="text-sm text-slate-500"><strong>Purpose:</strong> Allows your SPA to have multiple pages (e.g., /about, /contact) without reloading the browser.</p>
+                    </div>
+
+                    <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-emerald-400 transition-colors">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="text-2xl">🎨</span>
+                            <h4 class="font-bold text-slate-800">Tailwind / Bootstrap</h4>
+                        </div>
+                        <p class="text-sm text-slate-500"><strong>Purpose:</strong> UI Frameworks that handle the design. They provide pre-made styles so you don't write CSS from scratch.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="mb-20">
+            <div class="bg-slate-900 rounded-[3rem] p-12 text-center text-white">
+                <h2 class="text-3xl font-bold mb-6">Blueprint Summary</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                    <div>
+                        <div class="text-4xl mb-4">🏠</div>
+                        <h4 class="font-bold text-blue-400">index.html</h4>
+                        <p class="text-xs text-slate-400 mt-2">The empty shell where React injects everything.</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-4">🔌</div>
+                        <h4 class="font-bold text-blue-400">main.jsx</h4>
+                        <p class="text-xs text-slate-400 mt-2">The plug that connects React code to the HTML shell.</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-4">💎</div>
+                        <h4 class="font-bold text-blue-400">App.jsx</h4>
+                        <p class="text-xs text-slate-400 mt-2">The actual application logic and structure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 border-t border-slate-100 text-center text-slate-400 text-sm">
+        <p>&copy; 2024 React Anatomy Course &bull; Graduating Student Edition</p>
+    </footer>
+
+    <script>
+        const fileData = {
+            app: {
+                title: "App.jsx",
+                desc: "The heart of your application. This is where you build the main layout and combine all your smaller components together.",
+                purpose: "Main component logic. It's usually the first 'real' component you edit.",
+                analogy: "The Manager of the restaurant who decides which chef cooks which dish.",
+                ext: ".jsx (JavaScript XML)"
+            },
+            main: {
+                title: "main.jsx",
+                desc: "The entry point for JavaScript. It finds the <code>&lt;div id='root'&gt;</code> in your HTML and renders the <code>App</code> component inside it.",
+                purpose: "Bootstrap/Startup logic. You rarely change this file.",
+                analogy: "The electrical socket that provides power to your whole house.",
+                ext: ".jsx (Entry Point)"
+            },
+            index: {
+                title: "index.html",
+                desc: "The only actual HTML file in your project. It's almost empty because React dynamically builds the content.",
+                purpose: "The host for your React app. Contains the meta tags and the 'root' container.",
+                analogy: "The empty plate waiting for the chef (React) to put food on it.",
+                ext: ".html (Base Shell)"
+            },
+            package: {
+                title: "package.json",
+                desc: "The project's manifesto. It lists every library you've installed and defines your project's version and metadata.",
+                purpose: "Dependency and script management. Tells NPM which libraries to download.",
+                analogy: "The inventory list of a kitchen showing every ingredient and spice available.",
+                ext: ".json (Configuration)"
+            },
+            assets: {
+                title: "assets/",
+                desc: "A special folder for static files like images, icons, and global CSS that you want to import directly into your components.",
+                purpose: "Storage for media files and global styling assets.",
+                analogy: "The pantry where you store non-perishable goods like oil and salt.",
+                ext: "Directory (Media)"
+            }
+        };
+
+        function showFile(id) {
+            const data = fileData[id];
+            
+            // UI Updates
+            document.querySelectorAll('.file-tree-item').forEach(el => el.classList.remove('active-file'));
+            document.getElementById(`tree-${id}`).classList.add('active-file');
+
+            const content = document.getElementById('file-content');
+            content.classList.remove('fade-in');
+            
+            setTimeout(() => {
+                document.getElementById('file-title').innerText = data.title;
+                document.getElementById('file-desc').innerHTML = data.desc;
+                document.getElementById('file-purpose').innerText = data.purpose;
+                document.getElementById('file-analogy').innerText = data.analogy;
+                document.getElementById('file-ext').innerText = data.ext;
+                content.classList.add('fade-in');
+            }, 50);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('libraryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Core (React/Vite)', 'UI (Tailwind/Bootstrap)', 'Data (Axios/API)', 'Routing'],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: [
+                            '#3b82f6', // blue
+                            '#6366f1', // indigo
+                            '#10b981', // emerald
+                            '#f59e0b'  // amber
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 20 } }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            initChart();
+        }
+    </script>
+</body>
+</html>

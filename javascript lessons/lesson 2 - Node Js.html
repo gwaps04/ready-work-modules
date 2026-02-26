@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Deep Dive: Server-Side Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f0fdf4; color: #166534; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 300px; }
+        .node-card { transition: all 0.3s ease; border: 1px solid #dcfce7; }
+        .node-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(22, 101, 52, 0.1); }
+        .event-loop-box { border: 2px dashed #86efac; border-radius: 50%; width: 200px; height: 200px; display: flex; items-center; justify-center; animation: spin 10s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .hidden-content { display: none; }
+    </style>
+    <!-- Chosen Palette: Nature Green (Node.js themed), Soft Whites, and Dark Slate for code. -->
+    <!-- Application Structure Plan: 
+         1. The Runtime Concept: Explaining V8 and the "Host" vs "Guest" relationship.
+         2. Event Loop Simulator: A visual tool to explain non-blocking I/O.
+         3. Module Explorer: Clickable documentation for Core Modules (fs, http, path).
+         4. NPM Command Builder: Interactive tool to learn terminal commands.
+    -->
+    <!-- Visualization & Content Choices:
+         - Event Loop -> CSS Animation + JS state -> Visualizes how code doesn't "wait".
+         - Use Case Comparison -> Bar Chart -> Shows Node's strength in I/O vs CPU tasks.
+         - Module Details -> JS Toggle -> Keeps the UI clean and explorable.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased pb-20">
+
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-green-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🟢</span>
+                <span class="font-extrabold text-xl tracking-tight text-green-900">Node.js <span class="text-green-600">Mastery</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold text-green-700">
+                <button onclick="scrollToSection('runtime')" class="hover:text-green-500">The Runtime</button>
+                <button onclick="scrollToSection('loop')" class="hover:text-green-500">Event Loop</button>
+                <button onclick="scrollToSection('modules')" class="hover:text-green-500">Core Modules</button>
+                <button onclick="scrollToSection('npm')" class="hover:text-green-500">NPM Lab</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-12">
+        
+        <!-- Header -->
+        <header class="text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-green-900 mb-6">JavaScript on the Server</h1>
+            <p class="text-lg text-green-700 max-w-2xl mx-auto leading-relaxed">
+                Node.js is not a programming language or a framework. It is a <strong>Runtime Environment</strong> that allows JavaScript to interact with your computer's hardware.
+            </p>
+        </header>
+
+        <!-- SECTION 1: RUNTIME CONCEPT -->
+        <section id="runtime" class="mb-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold text-green-900 mb-6">🏗️ The V8 Engine</h2>
+                <p class="text-green-800 mb-4">
+                    Node.js is built on Google Chrome's <strong>V8 Engine</strong>. It takes your JavaScript code and compiles it directly into <strong>Machine Code</strong> that the processor understands.
+                </p>
+                <div class="bg-white p-6 rounded-2xl border border-green-100 shadow-sm">
+                    <h4 class="font-bold mb-4 flex items-center gap-2">📂 Hardware Access</h4>
+                    <ul class="space-y-3 text-sm text-green-700">
+                        <li class="flex items-center gap-2"><span>✅</span> Read/Write to Hard Drive (File System)</li>
+                        <li class="flex items-center gap-2"><span>✅</span> Listen to Network Ports (HTTP Servers)</li>
+                        <li class="flex items-center gap-2"><span>✅</span> Access OS Info (CPU, Memory, Uptime)</li>
+                        <li class="flex items-center gap-2"><span>✅</span> Execute Shell Commands</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-green-900 rounded-3xl p-8 text-white flex flex-col items-center justify-center text-center">
+                <div class="text-6xl mb-4">🚀</div>
+                <h3 class="text-xl font-bold mb-2">Performance Focus</h3>
+                <p class="text-green-200 text-sm mb-6">Node is king for I/O bound tasks, but let's see why.</p>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE EVENT LOOP (VISUALIZER) -->
+        <section id="loop" class="mb-24 bg-white rounded-[2.5rem] p-8 md:p-12 border border-green-100 shadow-xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">🔄 The Event Loop</h2>
+                <p class="text-green-600">The secret to Node's speed is its non-blocking nature.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="relative w-64 h-64 flex items-center justify-center">
+                    <div class="event-loop-box border-4 border-green-500 border-t-transparent shadow-inner"></div>
+                    <div class="absolute inset-0 flex items-center justify-center text-center font-black text-green-700 uppercase tracking-widest text-xs">
+                        Event<br>Loop
+                    </div>
+                </div>
+
+                <div class="flex-1 space-y-6">
+                    <div id="step-info" class="p-6 bg-green-50 rounded-xl border border-green-200 min-h-[120px] transition-all duration-300">
+                        <h4 class="font-bold text-green-900 mb-2">Click a button to simulate a task:</h4>
+                        <p class="text-sm text-green-700" id="step-text">Node is currently idling, ready for requests.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button onclick="simTask('sync')" class="px-4 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition active:scale-95">Synchronous Task (Blocking)</button>
+                        <button onclick="simTask('async')" class="px-4 py-3 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition active:scale-95">Asynchronous Task (Non-Blocking)</button>
+                    </div>
+                    
+                    <div class="text-xs text-green-500 italic">
+                        * In Async mode, Node sends the task to the background and continues spinning the loop immediately.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CORE MODULES EXPLORER -->
+        <section id="modules" class="mb-24">
+            <h2 class="text-3xl font-bold text-green-900 mb-8 text-center">🧩 Core Modules Explorer</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- FS -->
+                <div class="bg-white p-6 rounded-2xl node-card cursor-pointer" onclick="toggleModule('fs')">
+                    <div class="text-3xl mb-4">📂</div>
+                    <h3 class="font-bold text-green-900">fs</h3>
+                    <p class="text-xs text-green-600 mb-4">File System</p>
+                    <div id="mod-fs" class="hidden-content text-xs text-slate-500 border-t pt-4 fade-in">
+                        Used to read, write, update, and delete files on your computer. 
+                        <code class="block mt-2 bg-slate-100 p-2 rounded">fs.readFile()</code>
+                    </div>
+                </div>
+                <!-- HTTP -->
+                <div class="bg-white p-6 rounded-2xl node-card cursor-pointer" onclick="toggleModule('http')">
+                    <div class="text-3xl mb-4">🌐</div>
+                    <h3 class="font-bold text-green-900">http</h3>
+                    <p class="text-xs text-green-600 mb-4">Web Server</p>
+                    <div id="mod-http" class="hidden-content text-xs text-slate-500 border-t pt-4 fade-in">
+                        Allows Node.js to transfer data over the Hyper Text Transfer Protocol.
+                        <code class="block mt-2 bg-slate-100 p-2 rounded">http.createServer()</code>
+                    </div>
+                </div>
+                <!-- PATH -->
+                <div class="bg-white p-6 rounded-2xl node-card cursor-pointer" onclick="toggleModule('path')">
+                    <div class="text-3xl mb-4">🗺️</div>
+                    <h3 class="font-bold text-green-900">path</h3>
+                    <p class="text-xs text-green-600 mb-4">File Paths</p>
+                    <div id="mod-path" class="hidden-content text-xs text-slate-500 border-t pt-4 fade-in">
+                        Handles file and directory paths across different Operating Systems (Windows vs Linux).
+                    </div>
+                </div>
+                <!-- OS -->
+                <div class="bg-white p-6 rounded-2xl node-card cursor-pointer" onclick="toggleModule('os')">
+                    <div class="text-3xl mb-4">💻</div>
+                    <h3 class="font-bold text-green-900">os</h3>
+                    <p class="text-xs text-green-600 mb-4">Operating System</p>
+                    <div id="mod-os" class="hidden-content text-xs text-slate-500 border-t pt-4 fade-in">
+                        Provides info about the operating system like memory usage and CPU architecture.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: NPM LAB -->
+        <section id="npm" class="mb-24 bg-slate-900 rounded-[2.5rem] p-10 text-white">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4">📦 NPM Command Builder</h2>
+                <p class="text-slate-400">Node Package Manager is the engine that connects you to millions of libraries.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h4 class="font-bold text-sm uppercase tracking-widest text-slate-500">Pick an Action</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="buildCmd('init')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition">Initialize Project</button>
+                        <button onclick="buildCmd('install')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition">Install Package</button>
+                        <button onclick="buildCmd('dev')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition">Install Dev-Dependency</button>
+                        <button onclick="buildCmd('run')" class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition">Run Script</button>
+                    </div>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 font-mono">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <p class="text-green-400" id="npm-output">$ npm init -y</p>
+                    <p class="text-slate-500 text-xs mt-4" id="npm-desc">Creates a package.json file with default settings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="text-center">
+            <div class="inline-block p-1 bg-gradient-to-r from-green-400 to-emerald-600 rounded-2xl mb-8">
+                <div class="bg-f0fdf4 px-12 py-8 rounded-xl">
+                    <h2 class="text-2xl font-bold text-green-900 mb-4">Graduating Takeaway</h2>
+                    <p class="text-green-700 text-sm max-w-md">
+                        Mastering Node.js means you stop thinking about "Websites" and start thinking about "Applications". It is the bridge between user interaction and system logic.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-10 text-green-800/40 text-xs">
+        &bull; Node.js Deep Dive Lesson &bull; Graduating Students 2024 &bull;
+    </footer>
+
+    <script>
+        // Performance Chart
+        function initChart() {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['File Reading', 'Data Streaming', 'User Auth', 'CPU Heavy (Math)'],
+                    datasets: [{
+                        label: 'Node.js Efficiency',
+                        data: [95, 98, 85, 30],
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false, grid: { display: false } },
+                        x: { ticks: { color: '#bbf7d0', font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Event Loop Simulation
+        function simTask(type) {
+            const stepText = document.getElementById('step-text');
+            const stepInfo = document.getElementById('step-info');
+
+            if (type === 'sync') {
+                stepInfo.style.borderColor = '#ef4444';
+                stepText.innerHTML = "<strong>BLOCKING!</strong> The Event Loop has stopped spinning. No one else can access the site until this math finishes.";
+                setTimeout(() => {
+                    stepInfo.style.borderColor = '#86efac';
+                    stepText.innerHTML = "Task finished. Event Loop resumed.";
+                }, 3000);
+            } else {
+                stepInfo.style.borderColor = '#6366f1';
+                stepText.innerHTML = "<strong>ASYNC!</strong> Node sent the 'Read File' task to the OS. The Loop is still spinning and serving other users!";
+                setTimeout(() => {
+                    stepText.innerHTML = "File data received! Node is now executing the callback function.";
+                }, 2000);
+            }
+        }
+
+        // Module Toggle
+        function toggleModule(id) {
+            const all = ['fs', 'http', 'path', 'os'];
+            all.forEach(m => {
+                if (m === id) {
+                    const el = document.getElementById(`mod-${m}`);
+                    el.classList.toggle('hidden-content');
+                } else {
+                    document.getElementById(`mod-${m}`).classList.add('hidden-content');
+                }
+            });
+        }
+
+        // NPM Command Builder
+        function buildCmd(type) {
+            const out = document.getElementById('npm-output');
+            const desc = document.getElementById('npm-desc');
+            
+            const commands = {
+                init: { cmd: "$ npm init -y", desc: "Creates a package.json file with default settings." },
+                install: { cmd: "$ npm install express", desc: "Downloads 'express' into node_modules and saves it as a dependency." },
+                dev: { cmd: "$ npm install nodemon --save-dev", desc: "Installs a tool only needed for development (doesn't go to production)." },
+                run: { cmd: "$ npm run start", desc: "Executes a predefined script in your package.json." }
+            };
+
+            out.textContent = commands[type].cmd;
+            desc.textContent = commands[type].desc;
+            out.classList.add('pulse');
+            setTimeout(() => out.classList.remove('pulse'), 500);
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            initChart();
+        }
+    </script>
+</body>
+</html>

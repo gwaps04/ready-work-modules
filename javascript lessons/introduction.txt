@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack Launchpad: Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .transition-all { transition: all 0.3s ease; }
+        .step-active { border-color: #3b82f6; background-color: #eff6ff; }
+        .hidden-content { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+    <!-- Chosen Palette: Slate (Background), Blue (Primary Action), Indigo (Secondary), Emerald (Success), Amber (Warning) -->
+    <!-- Application Structure Plan: 
+         1. Hero Section: engaging hook and overview.
+         2. The Restaurant Metaphor: Interactive grid where users click layers (React/Bootstrap/Node) to reveal definitions.
+         3. Frontend Lab: A mini "sandbox" to toggle Bootstrap classes and understand Components visually.
+         4. Backend Simulator: A step-by-step interaction mimicking the Request/Response cycle (The Waiter).
+         5. Project Decision: Interactive cards + Radar Chart to compare the 3 project options based on attributes (Visuals vs Logic).
+         This structure moves from conceptual -> practical -> decision making.
+    -->
+    <!-- Visualization & Content Choices:
+         - Restaurant Analogy -> Interactive Cards -> Click to Reveal -> Simplicity for beginners.
+         - Bootstrap Demo -> Live Preview Box -> Toggle Buttons -> Immediate visual feedback.
+         - Project Comparison -> Radar Chart (Chart.js) -> Compare on multiple axes (Fun, Logic, Practicality) -> Helps students choose.
+         - API Flow -> Progress Steps -> JS Timeout Animation -> Visualizes the invisible server process.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-blue-600">🚀 Full-Stack Launchpad</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="scrollToSection('architecture')" class="text-slate-600 hover:text-blue-600 font-medium">The Architecture</button>
+                    <button onclick="scrollToSection('frontend')" class="text-slate-600 hover:text-blue-600 font-medium">Frontend Lab</button>
+                    <button onclick="scrollToSection('backend')" class="text-slate-600 hover:text-blue-600 font-medium">Backend Logic</button>
+                    <button onclick="scrollToSection('projects')" class="text-slate-600 hover:text-blue-600 font-medium">Project Picker</button>
+                </div>
+                <!-- Mobile menu button omitted for brevity, keeping layout clean -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">
+                Fast-Track to Modern Web Dev
+            </h1>
+            <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
+                Welcome graduating students! Today we bridge the gap between theory and building real apps using the industry-standard stack: React, Node.js, and Bootstrap.
+            </p>
+            <div class="flex justify-center gap-4">
+                <button onclick="scrollToSection('architecture')" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                    Start Learning
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- SECTION 1: THE ARCHITECTURE (The Restaurant Analogy) -->
+        <section id="architecture" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">🏗️ The Three Pillars of Your App</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Building a professional web application is like running a restaurant. It requires three distinct layers working in harmony. Click each card below to explore the role of each technology.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- React Card -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 card-hover cursor-pointer group" onclick="toggleArchitecture('react')">
+                    <div class="h-2 bg-blue-400"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-800">1. React.js</h3>
+                            <span class="text-2xl">🍽️</span>
+                        </div>
+                        <h4 class="text-blue-600 font-semibold mb-2">The Dining Area</h4>
+                        <p class="text-slate-600 mb-4">This is what the user sees and interacts with. Fast, interactive, and beautiful.</p>
+                        <div id="desc-react" class="hidden-content bg-blue-50 p-4 rounded-lg text-sm text-blue-800 border border-blue-100 fade-in">
+                            <strong>Why React?</strong> It uses "Components" (like LEGO bricks). You build a "Post" component once, and React multiplies it for every item in your feed!
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 text-center group-hover:text-blue-500">Click for details</p>
+                    </div>
+                </div>
+
+                <!-- Bootstrap Card -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 card-hover cursor-pointer group" onclick="toggleArchitecture('bootstrap')">
+                    <div class="h-2 bg-indigo-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-800">2. Bootstrap CSS</h3>
+                            <span class="text-2xl">🎨</span>
+                        </div>
+                        <h4 class="text-indigo-600 font-semibold mb-2">The Interior Design</h4>
+                        <p class="text-slate-600 mb-4">Makes the dining area look professional without painting every brick by hand.</p>
+                        <div id="desc-bootstrap" class="hidden-content bg-indigo-50 p-4 rounded-lg text-sm text-indigo-800 border border-indigo-100 fade-in">
+                            <strong>Why Bootstrap?</strong> Instant layout and styling. Instead of writing 100 lines of CSS, just use <code>class="btn btn-primary"</code>.
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 text-center group-hover:text-indigo-500">Click for details</p>
+                    </div>
+                </div>
+
+                <!-- Node Card -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 card-hover cursor-pointer group" onclick="toggleArchitecture('node')">
+                    <div class="h-2 bg-green-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-800">3. Node.js</h3>
+                            <span class="text-2xl">🍳</span>
+                        </div>
+                        <h4 class="text-green-600 font-semibold mb-2">The Kitchen</h4>
+                        <p class="text-slate-600 mb-4">Where the magic happens behind the scenes—processing data and talking to databases.</p>
+                        <div id="desc-node" class="hidden-content bg-green-50 p-4 rounded-lg text-sm text-green-800 border border-green-100 fade-in">
+                            <strong>Why Node?</strong> It allows us to use JavaScript on the Server Side. It acts as the "Waiter" taking orders from React to the Database.
+                        </div>
+                        <p class="text-xs text-slate-400 mt-4 text-center group-hover:text-green-500">Click for details</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: FRONTEND LAB -->
+        <section id="frontend" class="scroll-mt-20 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="p-8 lg:p-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">🎨 Phase 1: The "Face" (Frontend)</h2>
+                    <p class="text-slate-600 mb-6">
+                        We start by making things look good. React handles the structure (Components), and Bootstrap handles the style.
+                        <br><br>
+                        <strong>Try the Quick Bootstrap Hack:</strong> Instead of writing complex CSS, toggle the switches below to apply Bootstrap classes to the preview box instantly.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <code class="text-indigo-600 font-mono">btn-primary</code>
+                            <button id="toggle-btn" class="px-3 py-1 bg-slate-200 rounded text-sm font-medium hover:bg-slate-300 transition" onclick="toggleDemo('btn')">Apply</button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <code class="text-indigo-600 font-mono">shadow-lg</code>
+                            <button id="toggle-shadow" class="px-3 py-1 bg-slate-200 rounded text-sm font-medium hover:bg-slate-300 transition" onclick="toggleDemo('shadow')">Apply</button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                            <code class="text-indigo-600 font-mono">rounded-full</code>
+                            <button id="toggle-round" class="px-3 py-1 bg-slate-200 rounded text-sm font-medium hover:bg-slate-300 transition" onclick="toggleDemo('round')">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-100 p-8 lg:p-12 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-200">
+                    <div class="text-center w-full">
+                        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-6">Live Component Preview</h3>
+                        <div id="demo-box" class="bg-white p-6 border border-slate-300 inline-block transition-all duration-500 ease-in-out">
+                            <h4 class="font-bold text-lg mb-2">I am a Component</h4>
+                            <p class="text-sm text-slate-500">Style me with Bootstrap!</p>
+                        </div>
+                        <div class="mt-8 text-xs text-slate-400 font-mono bg-slate-800 text-white p-4 rounded text-left">
+                            &lt;button class="<span id="code-display" class="text-yellow-400">btn-light border</span>"&gt;...&lt;/button&gt;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: BACKEND SIMULATOR -->
+        <section id="backend" class="scroll-mt-20">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">⚙️ Phase 2: The "Brain" (Node.js)</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Node.js acts as the "Waiter" (API). It takes the request from the customer (React) to the kitchen (Database) and brings back the food (Data).
+                    <br><strong>Interact with the simulation below to see the flow.</strong>
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 relative">
+                    <!-- Progress Bar Background -->
+                    <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-100 -z-10 hidden md:block transform -translate-y-1/2"></div>
+                    
+                    <!-- Step 1 -->
+                    <div id="step-1" class="w-full md:w-1/3 p-4 border-2 border-slate-200 rounded-lg bg-white text-center transition-all duration-300">
+                        <div class="text-4xl mb-2">👱‍♂️</div>
+                        <h4 class="font-bold text-slate-800">React (Client)</h4>
+                        <p class="text-sm text-slate-500">"I want the list of users."</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div id="step-2" class="w-full md:w-1/3 p-4 border-2 border-slate-200 rounded-lg bg-white text-center transition-all duration-300 opacity-50">
+                        <div class="text-4xl mb-2">🤖</div>
+                        <h4 class="font-bold text-slate-800">Node (Waiter)</h4>
+                        <p class="text-sm text-slate-500">Processing Request...</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div id="step-3" class="w-full md:w-1/3 p-4 border-2 border-slate-200 rounded-lg bg-white text-center transition-all duration-300 opacity-50">
+                        <div class="text-4xl mb-2">🗄️</div>
+                        <h4 class="font-bold text-slate-800">Database (Kitchen)</h4>
+                        <p class="text-sm text-slate-500">Fetching Data...</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button id="sim-btn" onclick="runSimulation()" class="px-8 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 active:scale-95 transition-transform flex items-center gap-2">
+                        <span>🚀 Click to Simulate Request</span>
+                    </button>
+                </div>
+                
+                <div id="sim-log" class="mt-6 p-4 bg-slate-900 text-green-400 font-mono text-sm rounded-lg h-24 overflow-y-auto hidden">
+                    <span class="opacity-50">// Server Logs will appear here...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PROJECT PICKER -->
+        <section id="projects" class="scroll-mt-20 mb-20">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">🏁 Checkpoint: Choose Your Project</h2>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    We have three potential paths for the tutoring session. Compare them below to see which one fits your students' interests best.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-xl shadow border border-slate-200 p-6 cursor-pointer hover:border-blue-500 transition-colors" onclick="selectProject(0)">
+                    <div class="text-xs font-bold text-blue-600 uppercase tracking-wide mb-2">Practical</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Graduation Portfolio</h3>
+                    <p class="text-slate-600 text-sm mb-4">A professional site to showcase college projects. Features a real "Contact Me" form powered by Node.</p>
+                    <ul class="text-sm text-slate-500 space-y-1 list-disc list-inside">
+                        <li>Sleek Design</li>
+                        <li>Job-Ready Asset</li>
+                        <li>Form Handling</li>
+                    </ul>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-white rounded-xl shadow border border-slate-200 p-6 cursor-pointer hover:border-indigo-500 transition-colors" onclick="selectProject(1)">
+                    <div class="text-xs font-bold text-indigo-600 uppercase tracking-wide mb-2">Interactive</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Student Task Pulse</h3>
+                    <p class="text-slate-600 text-sm mb-4">A collaborative To-Do list for study groups. React handles checkboxes, Node saves status.</p>
+                    <ul class="text-sm text-slate-500 space-y-1 list-disc list-inside">
+                        <li>State Management</li>
+                        <li>Productivity Focus</li>
+                        <li>CRUD Operations</li>
+                    </ul>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-white rounded-xl shadow border border-slate-200 p-6 cursor-pointer hover:border-pink-500 transition-colors" onclick="selectProject(2)">
+                    <div class="text-xs font-bold text-pink-600 uppercase tracking-wide mb-2">Fun & Social</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Dev-Gram</h3>
+                    <p class="text-slate-600 text-sm mb-4">A simple image-sharing wall. Uses Bootstrap Grid heavily to look like Instagram.</p>
+                    <ul class="text-sm text-slate-500 space-y-1 list-disc list-inside">
+                        <li>Array Mapping</li>
+                        <li>Heavy Visuals</li>
+                        <li>Grid Layouts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Visualization Area -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200 flex flex-col items-center">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Project Attribute Comparison</h3>
+                <p class="text-sm text-slate-500 mb-6">Visualizing the focus of each project to help you decide.</p>
+                <div class="chart-container">
+                    <canvas id="projectChart"></canvas>
+                </div>
+                <div id="recommendation-text" class="mt-6 text-center font-medium text-slate-700 bg-slate-50 px-6 py-3 rounded-full">
+                    Select a project card above to see details.
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <p>© 2024 Full-Stack Tutor Module. Created for Graduating Students.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Architecture Section Logic ---
+        function toggleArchitecture(id) {
+            const desc = document.getElementById(`desc-${id}`);
+            const isHidden = desc.classList.contains('hidden-content');
+            
+            // Hide all first
+            ['react', 'bootstrap', 'node'].forEach(key => {
+                document.getElementById(`desc-${key}`).classList.add('hidden-content');
+            });
+
+            if (isHidden) {
+                desc.classList.remove('hidden-content');
+            }
+        }
+
+        // --- Frontend Lab Logic ---
+        const demoState = {
+            btn: false,
+            shadow: false,
+            round: false
+        };
+
+        function toggleDemo(type) {
+            demoState[type] = !demoState[type];
+            updateDemoBox();
+            updateButtons(type);
+        }
+
+        function updateDemoBox() {
+            const box = document.getElementById('demo-box');
+            const codeDisplay = document.getElementById('code-display');
+            
+            // Base classes
+            let classes = ['bg-white', 'p-6', 'border', 'border-slate-300', 'inline-block', 'transition-all', 'duration-500', 'ease-in-out'];
+            let displayClasses = [];
+
+            if (demoState.btn) {
+                classes = classes.filter(c => c !== 'bg-white' && c !== 'border' && c !== 'border-slate-300');
+                classes.push('bg-blue-600', 'text-white', 'border-transparent');
+                displayClasses.push('btn-primary');
+            } else {
+                displayClasses.push('btn-light');
+            }
+
+            if (demoState.shadow) {
+                classes.push('shadow-xl', 'transform', '-translate-y-2');
+                displayClasses.push('shadow-lg');
+            }
+
+            if (demoState.round) {
+                classes.push('rounded-full', 'px-10');
+                displayClasses.push('rounded-pill');
+            } else {
+                // Remove rounded-full if not active, keep basic rounded?
+                // For simplicity, we just toggle the specific classes
+            }
+
+            box.className = classes.join(' ');
+            codeDisplay.textContent = displayClasses.join(' ');
+        }
+
+        function updateButtons(type) {
+            const btnId = type === 'btn' ? 'toggle-btn' : type === 'shadow' ? 'toggle-shadow' : 'toggle-round';
+            const btn = document.getElementById(btnId);
+            
+            if (demoState[type]) {
+                btn.textContent = "Remove";
+                btn.className = "px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium hover:bg-blue-200 transition";
+            } else {
+                btn.textContent = "Apply";
+                btn.className = "px-3 py-1 bg-slate-200 rounded text-sm font-medium hover:bg-slate-300 transition";
+            }
+        }
+
+        // --- Backend Simulator Logic ---
+        function runSimulation() {
+            const btn = document.getElementById('sim-btn');
+            const log = document.getElementById('sim-log');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+
+            if (btn.disabled) return;
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            log.classList.remove('hidden');
+            log.innerHTML = '';
+
+            // Reset Styles
+            [step1, step2, step3].forEach(el => el.classList.remove('step-active', 'opacity-100'));
+            [step2, step3].forEach(el => el.classList.add('opacity-50'));
+
+            // Step 1: React Request
+            addLog("React: Sending request GET /api/users...");
+            step1.classList.add('step-active');
+            
+            setTimeout(() => {
+                // Step 2: Node Processing
+                addLog("Node: Request received. querying database...");
+                step1.classList.remove('step-active');
+                step2.classList.remove('opacity-50');
+                step2.classList.add('step-active', 'opacity-100');
+
+                setTimeout(() => {
+                    // Step 3: Database
+                    addLog("Database: Found 42 users. Returning data...");
+                    step2.classList.remove('step-active');
+                    step3.classList.remove('opacity-50');
+                    step3.classList.add('step-active', 'opacity-100');
+
+                    setTimeout(() => {
+                        // Complete
+                        addLog("Node: Sending JSON response to React.");
+                        addLog("React: Data received! Updating UI.");
+                        step3.classList.remove('step-active');
+                        step1.classList.add('step-active'); // Back to client
+                        
+                        setTimeout(() => {
+                            step1.classList.remove('step-active');
+                            btn.disabled = false;
+                            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                            btn.querySelector('span').textContent = "🔄 Run Again";
+                        }, 1000);
+                    }, 1500);
+                }, 1500);
+            }, 1500);
+        }
+
+        function addLog(msg) {
+            const log = document.getElementById('sim-log');
+            const entry = document.createElement('div');
+            entry.textContent = `> ${msg}`;
+            entry.className = "mb-1 border-b border-slate-800 pb-1";
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // --- Chart & Project Logic ---
+        const projectData = [
+            { label: 'Portfolio', data: [80, 50, 90, 60], color: 'rgba(59, 130, 246, 0.5)', borderColor: 'rgb(59, 130, 246)', desc: "Best for immediate job hunting value." },
+            { label: 'Task Pulse', data: [40, 90, 70, 50], color: 'rgba(99, 102, 241, 0.5)', borderColor: 'rgb(99, 102, 241)', desc: "Best for learning Logic & State Management." },
+            { label: 'Dev-Gram', data: [90, 40, 50, 90], color: 'rgba(236, 72, 153, 0.5)', borderColor: 'rgb(236, 72, 153)', desc: "Best for Fun & CSS Grid practice." }
+        ];
+
+        let myRadarChart;
+
+        function initChart() {
+            const ctx = document.getElementById('projectChart').getContext('2d');
+            myRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Visuals', 'Logic/Backend', 'Practical Utility', 'Fun Factor'],
+                    datasets: projectData.map(p => ({
+                        label: p.label,
+                        data: p.data,
+                        fill: true,
+                        backgroundColor: p.color,
+                        borderColor: p.borderColor,
+                        pointBackgroundColor: p.borderColor,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: p.borderColor
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: { borderWidth: 3 }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { display: true },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers for cleaner look
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function selectProject(index) {
+            const p = projectData[index];
+            const rec = document.getElementById('recommendation-text');
+            rec.textContent = `Selection: ${p.label} - ${p.desc}`;
+            rec.className = "mt-6 text-center font-bold text-white px-6 py-3 rounded-full transition-colors";
+            rec.style.backgroundColor = p.borderColor;
+
+            // Highlight in chart (hide others briefly or just update dataset focus)
+            // For simplicity, we just update the text below the chart
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initChart();
+        });
+
+    </script>
+</body>
+</html>
